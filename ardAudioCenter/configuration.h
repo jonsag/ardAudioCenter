@@ -15,27 +15,14 @@ const byte lcdRows = 2;
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 /*******************************
-  FTDebouncer setup
-*******************************/
-#include "FTDebouncer.h" // load library for debouncing buttons
-
-const byte debounceTime = 30;
-
-#if !defined(nullptr)
-#define nullptr NULL
-#endif
-
-FTDebouncer pinDebouncer(debounceTime);
-
-/*******************************
   Rotary encoders
 *******************************/
 #include <SimpleRotary.h>
 
-SimpleRotary rotary1(4,5,6); // pin A, pin B, button pin
+SimpleRotary rotary1(2, 3, 4); // CLK, DT, SW (pin A, pin B, button pin)
 
-const byte debounceDelay = 30; // Set the debounce delay in ms  (Default: 2)
-const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
+//const byte debounceDelay = 5; // Set the debounce delay in ms  (Default: 2)
+//const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
 
 /*******************************
   Sources
@@ -49,7 +36,7 @@ byte oldSourceNo = sourceNo;
   Functions
 *******************************/
 byte functionNo = 0;
-String functions[] = {"Vol", "Src", "Bal"};
+//String functions[] = {"Vol", "Src", "Bal"};
 
 byte oldFunctionNo = functionNo;
 

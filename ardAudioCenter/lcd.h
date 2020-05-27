@@ -34,19 +34,26 @@ void printVolume() {
       lcd.print(" ");
     }
   }
+  oldVolume = volume;
 }
 
 void printFunction() {
   lcd.setCursor(0, 1);
-  lcd.print(functions[functionNo]);
+  if (functionNo == 0) {
+    lcd.print("Vol");
+  } else if (functionNo == 1) {
+    lcd.print("Src");
+  } else if (functionNo == 2) {
+    lcd.print("Bal");
+  } else {
+    lcd.print("Err");
+  }
+  
   lcd.setCursor(3, 1);
   lcd.print(" ");
 
-  if (functions[functionNo] == "Vol") {
+  if (functionNo == 0) {
     printVolume();
-  } else {
-    lcd.setCursor(0, 1);
-    lcd.print(functions[functionNo]);
   }
 
   oldFunctionNo = functionNo;

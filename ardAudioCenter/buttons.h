@@ -11,12 +11,16 @@ void readButtons() {
     Serial.println();
     Serial.print("Rotary encoder 1: ");
 
-    if ( rotate1 == 1 ) {
+    if ( rotate1 == 1) {
       Serial.println("CW");
-    }
-
-    if ( rotate1 == 2 ) {
+      if (functionNo == 0) {
+        increaseVolume();
+      }
+    } else if (rotate1 == 2) {
       Serial.println("CCW");
+      if (functionNo == 0) {
+        decreaseVolume();
+      }
     }
 
     if (push1) {
@@ -26,32 +30,6 @@ void readButtons() {
   }
 }
 
-void onPinActivated(int pinNr) {
-  /*
-    Serial.println();
-    Serial.print("Pin activated: ");
-    Serial.println(pinNr);
-  */
-}
-
-void onPinDeactivated(int pinNr) {
-  /*Serial.println();
-    Serial.print("Pin deactivated: ");
-    Serial.println(pinNr);
-  */
-
-  switch (pinNr) {
-    case 4:
-      button1Action();
-      break;
-  }
-
-  Serial.println();
-  Serial.print("Function selected: ");
-  Serial.println(functionNo);
-  Serial.println(functions[functionNo]);
-
-}
 
 /*
   byte i = rotary.pushLong(1000); // Check to see if button is pressed for 1 second.

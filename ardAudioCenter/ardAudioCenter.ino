@@ -28,25 +28,15 @@ void setup() {
   Serial.println(email);
   Serial.println();
 
-  /*******************************
-    Setup FTDebouncer pins
-  *******************************/
-  lcd.setCursor(0, 1);
-  lcd.print("Start debouncer ...");
-  
-  pinDebouncer.addPin(4, LOW); // pin has external pull-down resistor
-  pinDebouncer.begin();
-
   Serial.print("Function selected: ");
   Serial.println(functionNo);
-  Serial.println(functions[functionNo]);
 
   /*******************************
     Setup rotary encoders
   *******************************/
-  rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
-  rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
-  rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
+  //rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
+  //rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
+  //rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
 
   printSource();
   
@@ -55,8 +45,6 @@ void setup() {
 }
 
 void loop() { 
-  
-  pinDebouncer.update(); // reads and handles all buttons
 
   readButtons();
 
