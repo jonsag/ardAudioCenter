@@ -41,6 +41,13 @@ void setup() {
   Serial.println(functionNo);
   Serial.println(functions[functionNo]);
 
+  /*******************************
+    Setup rotary encoders
+  *******************************/
+  rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
+  rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
+  rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
+
   printSource();
   
   printFunction();
@@ -50,6 +57,8 @@ void setup() {
 void loop() { 
   
   pinDebouncer.update(); // reads and handles all buttons
+
+  readButtons();
 
   if (sourceNo != oldSourceNo) {
     printSource();

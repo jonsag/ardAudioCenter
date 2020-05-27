@@ -1,6 +1,7 @@
 /*******************************
   encoder1
 *******************************/
+
 void button1Action() {
 
   Serial.println("Button on rotary encoder 1 pressed");
