@@ -1,10 +1,6 @@
 #include "configuration.h" // sets all variables
-#include "lcd.h" // manages all info om LCD
-
-//#include <Wire.h> 
-#include <LiquidCrystal_I2C.h>
-
-LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27 for a 16 chars and 2 line display
+#include "buttons.h" // handle button presses
+#include "lcd.h" // manages all info on LCD
 
 void setup() {
   /*******************************
@@ -32,9 +28,39 @@ void setup() {
   Serial.println(email);
   Serial.println();
 
+  /*******************************
+    Setup FTDebouncer pins
+  *******************************/
+  lcd.setCursor(0, 1);
+  lcd.print("Start debouncer ...");
+  
+  pinDebouncer.addPin(4, LOW); // pin has external pull-down resistor
+  pinDebouncer.begin();
+
+  Serial.print("Function selected: ");
+  Serial.println(functionNo);
+  Serial.println(functions[functionNo]);
+
+  printSource();
+  
+  printFunction();
+
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop() { 
+  
+  pinDebouncer.update(); // reads and handles all buttons
+
+  if (sourceNo != oldSourceNo) {
+    printSource();
+  }
+
+  if (functionNo != oldFunctionNo) {
+    printFunction();
+  }
+
+  if (volume != oldVolume) {
+    printVolume();
+  }
 
 }
