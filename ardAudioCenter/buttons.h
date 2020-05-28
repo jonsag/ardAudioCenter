@@ -13,13 +13,19 @@ void readButtons() {
 
     if ( rotate1 == 1) {
       Serial.println("CW");
+      ////////// Volume up //////////
       if (functionNo == 0) {
         increaseVolume();
+      } else if ( functionNo == 1) {
+        sourceUp();
       }
     } else if (rotate1 == 2) {
       Serial.println("CCW");
+      ////////// Volume down //////////
       if (functionNo == 0) {
         decreaseVolume();
+      } else if ( functionNo == 1) {
+        sourceDown();
       }
     }
 

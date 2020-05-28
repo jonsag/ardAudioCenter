@@ -36,7 +36,7 @@ byte oldSourceNo = sourceNo;
   Functions
 *******************************/
 byte functionNo = 0;
-//String functions[] = {"Vol", "Src", "Bal"};
+String functions[] = {"Vol", "Src", "Bal"};
 
 byte oldFunctionNo = functionNo;
 
@@ -44,6 +44,7 @@ byte oldFunctionNo = functionNo;
   Volume
 *******************************/
 byte volume = 25;
+
 byte oldVolume = volume;
 
 /*******************************

@@ -5,8 +5,6 @@ void printSource() {
     lcd.setCursor(sources[sourceNo].length() + i, 0);
     lcd.print(" ");
   }
-
-  oldSourceNo = sourceNo;
 }
 
 void printVolume() {
@@ -34,27 +32,40 @@ void printVolume() {
       lcd.print(" ");
     }
   }
-  oldVolume = volume;
+}
+
+void printSourceSelect() {
+  lcd.setCursor(4, 1);
+  lcd.print(sourceNo);
+
+  lcd.setCursor(5, 1);
+  lcd.print(" ");
+
+  lcd.setCursor(6, 1);
+  lcd.print(sources[sourceNo]);
 }
 
 void printFunction() {
   lcd.setCursor(0, 1);
-  if (functionNo == 0) {
+  lcd.print(functions[functionNo]);
+  /*
+    if (functionNo == 0) {
     lcd.print("Vol");
-  } else if (functionNo == 1) {
+    } else if (functionNo == 1) {
     lcd.print("Src");
-  } else if (functionNo == 2) {
+    } else if (functionNo == 2) {
     lcd.print("Bal");
-  } else {
+    } else {
     lcd.print("Err");
-  }
-  
+    }
+  */
+
   lcd.setCursor(3, 1);
   lcd.print(" ");
 
   if (functionNo == 0) {
     printVolume();
+  } else if (functionNo == 1) {
+    printSourceSelect();
   }
-
-  oldFunctionNo = functionNo;
 }

@@ -18,7 +18,7 @@ void setup() {
   *******************************/
   lcd.setCursor(0, 1);
   lcd.print("Starting serial ...");
-  
+
   Serial.begin(9600);
 
   Serial.println(programName); // print information
@@ -28,8 +28,13 @@ void setup() {
   Serial.println(email);
   Serial.println();
 
+  Serial.print("Number of sources: ");
+  Serial.println(sizeof(sources) / sizeof(sources[0]));
+  Serial.println();
+
   Serial.print("Function selected: ");
   Serial.println(functionNo);
+  Serial.println(functions[functionNo]);
 
   /*******************************
     Setup rotary encoders
@@ -39,25 +44,31 @@ void setup() {
   //rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
 
   printSource();
-  
+
   printFunction();
 
 }
 
-void loop() { 
+void loop() {
 
   readButtons();
 
-  if (sourceNo != oldSourceNo) {
-    printSource();
-  }
-
   if (functionNo != oldFunctionNo) {
     printFunction();
+    oldFunctionNo = functionNo;
   }
 
   if (volume != oldVolume) {
     printVolume();
+    oldVolume = volume;
+  }
+
+  if (sourceNo != oldSourceNo) {
+    printSource();
+    if (functionNo == 1) {
+      printSourceSelect();
+    }
+    oldSourceNo = sourceNo;
   }
 
 }
