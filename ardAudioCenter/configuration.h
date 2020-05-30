@@ -19,6 +19,8 @@ const byte lcdRows = 2;
 
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
+#include "chars.h" // load custom characters
+
 /*******************************
   Rotary encoders
 *******************************/

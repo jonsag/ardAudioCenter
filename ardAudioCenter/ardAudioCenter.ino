@@ -90,6 +90,23 @@ void setup() {
   SPI.begin();
 
   /*******************************
+      Build custom characters
+    *******************************/
+  lcd.setCursor(0, 1);
+  lcd.print("Building chars  ");
+
+  if (debug) {
+  Serial.println("Building custom characters ...");
+  Serial.println();
+  }
+  
+  lcd.createChar(1, bar1);
+  lcd.createChar(2, bar2);
+  lcd.createChar(3, bar3);
+  lcd.createChar(4, bar4);
+  lcd.createChar(5, bar5);
+
+  /*******************************
     Setup rotary encoders
   *******************************/
   //rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.

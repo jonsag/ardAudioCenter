@@ -16,26 +16,54 @@ void printSource() {
 void printVolume() {
   lcd.setCursor(4, 1);
   lcd.print(volume);
-  if (volume < 10) {
+
+  if (volume < 10) { // volume has one character
     lcd.setCursor(5, 1);
     lcd.print("%");
-    for (int i = 6; i <= lcdColumns - 1; i++) { // fill up line whith spaces
+    for (int i = 6; i <= lcdColumns - 8; i++) { // fill up line whith spaces
       lcd.setCursor(i, 1);
       lcd.print(" ");
     }
-  } else if (volume < 100) {
+  } else if (volume < 100) { // volume has three characters
     lcd.setCursor(6, 1);
     lcd.print("%");
-    for (int i = 7; i <= lcdColumns - 1; i++) { // fill up line whith spaces
+    for (int i = 7; i <= lcdColumns - 8; i++) { // fill up line whith spaces
       lcd.setCursor(i, 1);
       lcd.print(" ");
     }
-  } else {
+  } else { // volume has two characters
     lcd.setCursor(7, 1);
     lcd.print("%");
-    for (int i = 8; i <= lcdColumns - 1; i++) { // fill up line whith spaces
+    for (int i = 8; i <= lcdColumns - 8; i++) { // fill up line whith spaces
       lcd.setCursor(i, 1);
       lcd.print(" ");
+    }
+  }
+
+  for (int i = 0; i <= 6; i++) { // draw volume bar
+    lcd.setCursor(i + 9, 1);
+
+    if (volume * 35 / 100 >= i * 5 + 1 && volume * 35 / 100 <= (i + 1) * 5) { // volume is somewhere in this char
+
+      switch (volume * 35 / 100 - i * 5) { // which segment should be drawn
+        case 1:
+          lcd.write(byte(1)); //print our custom char
+          break;
+        case 2:
+          lcd.write(byte(2)); //print our custom char
+          break;
+        case 3:
+          lcd.write(byte(3)); //print our custom char
+          break;
+        case 4:
+          lcd.write(byte(4)); //print our custom char
+          break;
+        case 5:
+          lcd.write(byte(5)); //print our custom char
+          break;
+      }
+    } else {
+      lcd.print("-");
     }
   }
 }
@@ -78,7 +106,7 @@ void printBalance() {
 
   if (balance != 0 && balance != 20) {
     lcd.setCursor(6, 1);
-    lcd.print(" "); 
+    lcd.print(" ");
   }
 
   for (int i = 7; i <= lcdColumns - 1; i++) { // fill up line whith spaces
