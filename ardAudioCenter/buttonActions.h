@@ -1,5 +1,5 @@
 /*******************************
-  encoder1
+  Rotary encoder 1
 *******************************/
 
 void button1Action() {
@@ -106,5 +106,15 @@ void balanceLeft() {
   if (debug) {
     Serial.print("Balance: ");
     Serial.println(balance);
+  }
+}
+
+/*******************************
+  Rotary encoder 2
+*******************************/
+
+void button2Action() {
+  if (debug) {
+    Serial.println("Button on rotary encoder 2 pressed");
   }
 }

@@ -1,9 +1,10 @@
 #include "configuration.h" // sets all variables
+#include "radio.h" // control the FM radio module
+#include "sdCard.h" // control the DFPlayer Mini SD Card module
 #include "lcd.h" // manages all info on LCD
 #include "buttons.h" // handle button presses
 #include "sources.h" // sets source
 #include "volume.h" // sets volume
-
 
 void setup() {
   /*******************************
@@ -25,6 +26,9 @@ void setup() {
 
     Serial.begin(9600);
 
+    /*******************************
+      Print start information
+    *******************************/
     Serial.println(programName); // print information
     Serial.println(date);
     Serial.print("by ");
@@ -52,6 +56,14 @@ void setup() {
     Serial.print("Balance: ");
     Serial.println(balance);
     Serial.println();
+
+    Serial.print("FM radio frequency: ");
+    Serial.println(frequency);
+    Serial.print("FM radio volume: ");
+    /* commented out beacause TEA5767 doesn't seem to have this optio
+      Serial.println(radioVolume);
+      Serial.println();
+    */
   }
 
   /*******************************
@@ -75,7 +87,7 @@ void setup() {
 
   digitalWrite(csPL, HIGH);
   digitalWrite(csPR, HIGH);
-  
+
   /*******************************
     Starting SPI interface
   *******************************/
@@ -90,16 +102,16 @@ void setup() {
   SPI.begin();
 
   /*******************************
-      Build custom characters
-    *******************************/
+    Build custom characters
+  *******************************/
   lcd.setCursor(0, 1);
-  lcd.print("Building chars  ");
+  lcd.print("Building chars ...");
 
   if (debug) {
-  Serial.println("Building custom characters ...");
-  Serial.println();
+    Serial.println("Building custom characters ...");
+    Serial.println();
   }
-  
+
   lcd.createChar(1, bar1);
   lcd.createChar(2, bar2);
   lcd.createChar(3, bar3);
@@ -107,14 +119,90 @@ void setup() {
   lcd.createChar(5, bar5);
 
   /*******************************
-    Setup rotary encoders
+    Set up rotary encoders
   *******************************/
-  //rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
-  //rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
-  //rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
+  /* all commented out because the default settings are fine
+    lcd.setCursor(0, 1);
+    lcd.print("Setting up encoders ...");
 
+    if (debug) {
+      Serial.println("Setting up rotary encoders  ...");
+      Serial.println();
+    }
+
+    rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
+    rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
+    rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
+  */
+
+  /*******************************
+    Start FM radio receiver
+  *******************************/
+  lcd.setCursor(0, 1);
+  lcd.print("Starting receiver ...");
+
+  if (debug) {
+    Serial.println("Starting FM radio recevier  ...");
+    Serial.println();
+  }
+
+  radio.init(); // initialize radio
+  if (debug) {
+    radio.debugEnable(); // enable information to the serial por
+  }
+
+  setReceiver(); // tune the radio receiver
+
+  /*******************************
+    Start DFPlayer Mini
+  *******************************/
+  lcd.setCursor(0, 1);
+  lcd.print("Starting sw serial ...");
+
+  if (debug) {
+    Serial.println("Start software serial  ...");
+    Serial.println();
+  }
+
+  mySoftwareSerial.begin(9600);
+
+  lcd.setCursor(0, 1);
+  lcd.print("Starting DFPlayer Mini ...");
+
+  if (debug) {
+    Serial.println();
+    Serial.println("DFRobot DFPlayer Mini");
+    Serial.println("Inicializando modulo DFPlayer... (3~5 segundos)");
+  }
+
+  if (!myDFPlayer.begin(mySoftwareSerial)) {
+    Serial.println("Could not initialize DFPlayer mini: ");
+    Serial.println("1. Check DFPlayer connections");
+    Serial.println("2. Insert SD card");
+    while (true);
+  }
+  if (debug) {
+    Serial.println();
+    Serial.println("Modulo DFPlayer Mini inicializado!");
+  }
+
+  myDFPlayer.setTimeOut(mySoftwareSerialTimeOut); // timeout serial 500ms
+  myDFPlayer.volume(sdVolume); // volume 10, between 0 and 30
+  myDFPlayer.EQ(0); // equalizer set to normal
+  
+  maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
+  if (debug) {
+    Serial.println();
+    Serial.print("Number of tracks on SD card: ");
+    Serial.println(maxSDSongs);
+  }
+
+  menu_opcoes(); // mostra o menu de comandos
+
+  /*******************************
+    Fill LCD
+  *******************************/
   printSource();
-
   printFunction();
 
   setVolume();
@@ -139,29 +227,32 @@ void loop() {
 
   if (volume != oldVolume) {
     printVolume();
-
     setVolume();
-
     oldVolume = volume;
   }
 
   if (balance != oldBalance) {
     printBalance();
-
     setVolume();
-
     oldBalance = balance;
   }
 
   if (sourceNo != oldSourceNo) {
     printSource();
+    setMux(); // select source via multiplexer
 
-    setMux();
+    if (sourceNo == 0) { // FM radio is selected
+      setReceiver();
+    }
 
     if (functionNo == 1) {
       printSourceSelect();
     }
+
     oldSourceNo = sourceNo;
   }
 
+  if (debug && sourceNo == 0) { // print radio debug information
+    printRadioDebugInfo();
+  }
 }

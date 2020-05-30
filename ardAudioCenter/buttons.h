@@ -4,6 +4,9 @@ void readButtons() {
   byte rotate1 = rotary1.rotate();
   byte push1 = rotary1.push();
 
+  byte rotate2 = rotary2.rotate();
+  byte push2 = rotary2.push();
+
   /*******************************
     Rotary encoder 1
   *******************************/
@@ -27,12 +30,12 @@ void readButtons() {
       } else if ( functionNo == 2) { //balance right
         balanceRight();
       }
-      
+
     } else if (rotate1 == 2) { // counter clockwise rotation
       if (debug) {
         Serial.println("CCW");
       }
-      
+
       if (functionNo == 0) { // volume down
         decreaseVolume();
       } else if ( functionNo == 1) { // source down
@@ -52,6 +55,36 @@ void readButtons() {
       button1Action();
     }
   }
+
+  /*******************************
+    Rotary encoder 2
+  *******************************/
+  if (rotate2 != 0 || push2 != 0) {  // button was rotated
+    if (debug) {
+      Serial.println();
+      Serial.print("Rotary encoder 2: ");
+    }
+
+    if ( rotate2 == 1) { // clockwise rotation
+      if (debug) {
+        Serial.println("CW");
+      }
+    } else if (rotate2 == 2) { // counter clockwise rotation
+      if (debug) {
+        Serial.println("CCW");
+      }
+    }
+  }
+
+  if (push2) {  // button pressed
+      buttonMillis = millis();
+
+      if (debug) {
+        Serial.println(" Pushed");
+      }
+
+      button2Action();
+    }
 }
 
 
