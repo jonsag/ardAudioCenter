@@ -7,12 +7,19 @@ void readButtons() {
   /*******************************
     Rotary encoder 1
   *******************************/
-  if (rotate1 != 0 || push1 != 0) {
-    Serial.println();
-    Serial.print("Rotary encoder 1: ");
+  if (rotate1 != 0 || push1 != 0) {  // button was rotated
+    buttonMillis = millis();
+
+    if (debug) {
+      Serial.println();
+      Serial.print("Rotary encoder 1: ");
+    }
 
     if ( rotate1 == 1) {
-      Serial.println("CW");
+      if (debug) {
+        Serial.println("CW");
+      }
+
       ////////// Volume up //////////
       if (functionNo == 0) {
         increaseVolume();
@@ -20,7 +27,9 @@ void readButtons() {
         sourceUp();
       }
     } else if (rotate1 == 2) {
-      Serial.println("CCW");
+      if (debug) {
+        Serial.println("CCW");
+      }
       ////////// Volume down //////////
       if (functionNo == 0) {
         decreaseVolume();
@@ -29,8 +38,13 @@ void readButtons() {
       }
     }
 
-    if (push1) {
-      Serial.println(" Pushed");
+    if (push1) {  // button was pressed
+      buttonMillis = millis();
+
+      if (debug) {
+        Serial.println(" Pushed");
+      }
+
       button1Action();
     }
   }

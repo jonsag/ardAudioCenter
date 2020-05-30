@@ -1,6 +1,8 @@
 #include "configuration.h" // sets all variables
-#include "buttons.h" // handle button presses
 #include "lcd.h" // manages all info on LCD
+#include "buttons.h" // handle button presses
+#include "sources.h" // set source
+
 
 void setup() {
   /*******************************
@@ -16,25 +18,55 @@ void setup() {
   /*******************************
     Start serial
   *******************************/
+  if (debug) {
+    lcd.setCursor(0, 1);
+    lcd.print("Starting serial ...");
+
+    Serial.begin(9600);
+
+    Serial.println(programName); // print information
+    Serial.println(date);
+    Serial.print("by ");
+    Serial.println(author);
+    Serial.println(email);
+    Serial.println();
+
+    Serial.print("Number of sources: ");
+    Serial.println(sizeof(sources) / sizeof(sources[0]));
+    Serial.println();
+
+    Serial.print("Source selected: ");
+    Serial.println(sourceNo);
+    Serial.println(sources[sourceNo]);
+    Serial.println();
+
+    Serial.print("Function selected: ");
+    Serial.println(functionNo);
+    Serial.println(functions[functionNo]);
+    Serial.println();
+
+    Serial.print("Volume: ");
+    Serial.print(volume);
+    Serial.println("%");
+    Serial.print("Balance: ");
+    Serial.println(balance);
+    Serial.println();
+  }
+
+  /*******************************
+    Define pins
+  *******************************/
   lcd.setCursor(0, 1);
-  lcd.print("Starting serial ...");
+  lcd.print("Defining pins ...");
 
-  Serial.begin(9600);
-
-  Serial.println(programName); // print information
-  Serial.println(date);
-  Serial.print("by ");
-  Serial.println(author);
-  Serial.println(email);
-  Serial.println();
-
-  Serial.print("Number of sources: ");
-  Serial.println(sizeof(sources) / sizeof(sources[0]));
-  Serial.println();
-
-  Serial.print("Function selected: ");
-  Serial.println(functionNo);
-  Serial.println(functions[functionNo]);
+  if (debug) {
+    Serial.println("Defining pins ...");
+    Serial.println();
+  }
+  for (int i = 0; i < 2; i++) {
+    pinMode(muxPins[i], OUTPUT);
+    digitalWrite(muxPins[i], LOW);
+  }
 
   /*******************************
     Setup rotary encoders
@@ -53,6 +85,13 @@ void loop() {
 
   readButtons();
 
+  if (millis() - buttonMillis >= screenWait) { // return to home screen after wait time
+    functionNo = 0;
+
+    sourceNo = selectSourceNo; // source might have been changed
+
+  }
+
   if (functionNo != oldFunctionNo) {
     printFunction();
     oldFunctionNo = functionNo;
@@ -65,6 +104,9 @@ void loop() {
 
   if (sourceNo != oldSourceNo) {
     printSource();
+
+    setMux();
+
     if (functionNo == 1) {
       printSourceSelect();
     }

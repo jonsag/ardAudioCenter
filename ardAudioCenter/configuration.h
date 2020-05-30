@@ -4,6 +4,11 @@ String author = "Jon Sagebrand";
 String email = "jonsagebrand@gmail.com";
 
 /*******************************
+  Debug from serial
+*******************************/
+const boolean debug = HIGH;
+
+/*******************************
   LCD setup
 *******************************/
 //#include <Wire.h> 
@@ -28,9 +33,10 @@ SimpleRotary rotary1(2, 3, 4); // CLK, DT, SW (pin A, pin B, button pin)
   Sources
 *******************************/
 byte sourceNo = 0;
-String sources[] = {"FM Radio", "Bluetooth", "Aux"};
+String sources[] = {"FM Radio", "Bluetooth", "SD Card", "Line In"};
 
 byte oldSourceNo = sourceNo;
+byte selectSourceNo;
 
 /*******************************
   Functions
@@ -41,14 +47,22 @@ String functions[] = {"Vol", "Src", "Bal"};
 byte oldFunctionNo = functionNo;
 
 /*******************************
-  Volume
+  Sound settings
 *******************************/
 byte volume = 25;
-
 byte oldVolume = volume;
 
+byte balance = 0;
+byte oldBalance = balance;
+
 /*******************************
-  Misc
+  Times
 *******************************/
-//byte i;
-//byte j;
+unsigned long buttonMillis; // when was a button pressed/rotated
+
+int screenWait = 2000; // how long to wait before returning to home screen
+
+/*******************************
+  Multiplexer
+*******************************/
+const int muxPins[2] = {14, 15}; // analog pins A0 and A1
