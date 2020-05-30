@@ -15,30 +15,34 @@ void readButtons() {
       Serial.print("Rotary encoder 1: ");
     }
 
-    if ( rotate1 == 1) {
+    if ( rotate1 == 1) { // clockwise rotation
       if (debug) {
         Serial.println("CW");
       }
 
-      ////////// Volume up //////////
-      if (functionNo == 0) {
+      if (functionNo == 0) { // volume up
         increaseVolume();
-      } else if ( functionNo == 1) {
+      } else if ( functionNo == 1) { // source up
         sourceUp();
+      } else if ( functionNo == 2) { //balance right
+        balanceRight();
       }
-    } else if (rotate1 == 2) {
+      
+    } else if (rotate1 == 2) { // counter clockwise rotation
       if (debug) {
         Serial.println("CCW");
       }
-      ////////// Volume down //////////
-      if (functionNo == 0) {
+      
+      if (functionNo == 0) { // volume down
         decreaseVolume();
-      } else if ( functionNo == 1) {
+      } else if ( functionNo == 1) { // source down
         sourceDown();
+      } else if ( functionNo == 2) { // balance left
+        balanceLeft();
       }
     }
 
-    if (push1) {  // button was pressed
+    if (push1) {  // button pressed
       buttonMillis = millis();
 
       if (debug) {

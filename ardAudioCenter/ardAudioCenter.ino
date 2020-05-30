@@ -1,7 +1,8 @@
 #include "configuration.h" // sets all variables
 #include "lcd.h" // manages all info on LCD
 #include "buttons.h" // handle button presses
-#include "sources.h" // set source
+#include "sources.h" // sets source
+#include "volume.h" // sets volume
 
 
 void setup() {
@@ -63,10 +64,30 @@ void setup() {
     Serial.println("Defining pins ...");
     Serial.println();
   }
-  for (int i = 0; i < 2; i++) {
+
+  for (int i = 0; i < 2; i++) { // define multiplexer pins
     pinMode(muxPins[i], OUTPUT);
     digitalWrite(muxPins[i], LOW);
   }
+
+  pinMode (csPL, OUTPUT); // chip select for left channel potentiometer
+  pinMode (csPR, OUTPUT); // chip select for right channel potentiometer
+
+  digitalWrite(csPL, HIGH);
+  digitalWrite(csPR, HIGH);
+  
+  /*******************************
+    Starting SPI interface
+  *******************************/
+  lcd.setCursor(0, 1);
+  lcd.print("Starting SPI ...");
+
+  if (debug) {
+    Serial.println("Starting SPI ...");
+    Serial.println();
+  }
+
+  SPI.begin();
 
   /*******************************
     Setup rotary encoders
@@ -78,6 +99,8 @@ void setup() {
   printSource();
 
   printFunction();
+
+  setVolume();
 
 }
 
@@ -99,7 +122,18 @@ void loop() {
 
   if (volume != oldVolume) {
     printVolume();
+
+    setVolume();
+
     oldVolume = volume;
+  }
+
+  if (balance != oldBalance) {
+    printBalance();
+
+    setVolume();
+
+    oldBalance = balance;
   }
 
   if (sourceNo != oldSourceNo) {

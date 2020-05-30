@@ -30,6 +30,17 @@ SimpleRotary rotary1(2, 3, 4); // CLK, DT, SW (pin A, pin B, button pin)
 //const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
 
 /*******************************
+  Digital potentiometers
+*******************************/
+#include <SPI.h> // loads the SPI library
+
+const int csPL = 9; // CS (chip select for MCP41010, digital potentiometer), left channel volume
+const int csPR = 10; // CS, right channel volume
+
+byte volL; // volume on left channel
+byte volR; // volume on right channel
+
+/*******************************
   Sources
 *******************************/
 byte sourceNo = 0;
@@ -51,8 +62,9 @@ byte oldFunctionNo = functionNo;
 *******************************/
 byte volume = 25;
 byte oldVolume = volume;
+byte volumeVal;
 
-byte balance = 0;
+byte balance = 10;
 byte oldBalance = balance;
 
 /*******************************

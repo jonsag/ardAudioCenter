@@ -78,3 +78,33 @@ void sourceDown() {
     Serial.println(sources[selectSourceNo]);
   }
 }
+
+void balanceRight() {
+  balance += 1;
+
+  if (balance > 20) {
+    balance = 20;
+  }
+
+  printBalance();
+
+  if (debug) {
+    Serial.print("Balance: ");
+    Serial.println(balance);
+  }
+}
+
+void balanceLeft() {
+  balance -= 1;
+
+  if (balance < 0 || balance > 20) {
+    balance = 0;
+  }
+
+  printBalance();
+
+  if (debug) {
+    Serial.print("Balance: ");
+    Serial.println(balance);
+  }
+}
