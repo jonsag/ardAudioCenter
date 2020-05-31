@@ -1,12 +1,17 @@
 #include "configuration.h" // sets all variables
 #include "radio.h" // control the FM radio module
-#include "sdCard.h" // control the DFPlayer Mini SD Card module
+//#include "sdCard.h" // control the DFPlayer Mini SD Card module
 #include "lcd.h" // manages all info on LCD
 #include "buttons.h" // handle button presses
 #include "sources.h" // sets source
 #include "volume.h" // sets volume
 
 void setup() {
+  /*******************************
+    Start wire, I2C
+  *******************************/
+  //Wire.begin(D2, D1); // SDA -> D2, SCL -> D1 // wire is not needed
+
   /*******************************
     Start LCD
   *******************************/
@@ -24,7 +29,7 @@ void setup() {
     lcd.setCursor(0, 1);
     lcd.print("Starting serial ...");
 
-    Serial.begin(9600);
+    Serial.begin(serialSpeed);
 
     /*******************************
       Print start information
@@ -87,6 +92,10 @@ void setup() {
 
   digitalWrite(csPL, HIGH);
   digitalWrite(csPR, HIGH);
+
+  pinMode(btMute, OUTPUT); // mute output on bluetooth module
+
+  digitalWrite(btMute, HIGH); 
 
   /*******************************
     Starting SPI interface
@@ -156,48 +165,50 @@ void setup() {
   /*******************************
     Start DFPlayer Mini
   *******************************/
-  lcd.setCursor(0, 1);
-  lcd.print("Starting sw serial ...");
+  /*
+    lcd.setCursor(0, 1);
+    lcd.print("Starting sw serial ...");
 
-  if (debug) {
-    Serial.println("Start software serial  ...");
-    Serial.println();
-  }
+    if (debug) {
+      Serial.println("Start software serial  ...");
+      Serial.println();
+    }
 
-  mySoftwareSerial.begin(9600);
+    mySoftwareSerial.begin(9600);
 
-  lcd.setCursor(0, 1);
-  lcd.print("Starting DFPlayer Mini ...");
+    lcd.setCursor(0, 1);
+    lcd.print("Starting DFPlayer Mini ...");
 
-  if (debug) {
-    Serial.println();
-    Serial.println("DFRobot DFPlayer Mini");
-    Serial.println("Inicializando modulo DFPlayer... (3~5 segundos)");
-  }
+    if (debug) {
+      Serial.println();
+      Serial.println("DFRobot DFPlayer Mini");
+      Serial.println("Inicializando modulo DFPlayer... (3~5 segundos)");
+    }
 
-  if (!myDFPlayer.begin(mySoftwareSerial)) {
-    Serial.println("Could not initialize DFPlayer mini: ");
-    Serial.println("1. Check DFPlayer connections");
-    Serial.println("2. Insert SD card");
-    while (true);
-  }
-  if (debug) {
-    Serial.println();
-    Serial.println("Modulo DFPlayer Mini inicializado!");
-  }
+    if (!myDFPlayer.begin(mySoftwareSerial)) {
+      Serial.println("Could not initialize DFPlayer mini: ");
+      Serial.println("1. Check DFPlayer connections");
+      Serial.println("2. Insert SD card");
+      while (true);
+    }
+    if (debug) {
+      Serial.println();
+      Serial.println("Modulo DFPlayer Mini inicializado!");
+    }
 
-  myDFPlayer.setTimeOut(mySoftwareSerialTimeOut); // timeout serial 500ms
-  myDFPlayer.volume(sdVolume); // volume 10, between 0 and 30
-  myDFPlayer.EQ(0); // equalizer set to normal
-  
-  maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
-  if (debug) {
-    Serial.println();
-    Serial.print("Number of tracks on SD card: ");
-    Serial.println(maxSDSongs);
-  }
+    myDFPlayer.setTimeOut(mySoftwareSerialTimeOut); // timeout serial 500ms
+    myDFPlayer.volume(sdVolume); // volume 10, between 0 and 30
+    myDFPlayer.EQ(0); // equalizer set to normal
 
-  menu_opcoes(); // mostra o menu de comandos
+    maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
+    if (debug) {
+      Serial.println();
+      Serial.print("Number of tracks on SD card: ");
+      Serial.println(maxSDSongs);
+    }
+
+    menu_opcoes(); // mostra o menu de comandos
+  */
 
   /*******************************
     Fill LCD
@@ -243,6 +254,12 @@ void loop() {
 
     if (sourceNo == 0) { // FM radio is selected
       setReceiver();
+    } 
+    
+    if (sourceNo == 1) { // unmute bluetooth if selected
+      digitalWrite(btMute, LOW);
+    } else {
+      digitalWrite(btMute, HIGH);
     }
 
     if (functionNo == 1) {
@@ -252,7 +269,7 @@ void loop() {
     oldSourceNo = sourceNo;
   }
 
-  if (debug && sourceNo == 0) { // print radio debug information
+  if (debug && sourceNo == 0 && radioDebug) { // print radio debug information
     printRadioDebugInfo();
   }
 }

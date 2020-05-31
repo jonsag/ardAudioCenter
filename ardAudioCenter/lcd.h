@@ -1,3 +1,5 @@
+// to get this to work on esp8266 I had to dl the library from https://github.com/marcoschwartz/LiquidCrystal_I2C/archive/master.zip
+
 /*******************************
   Prints selected source on top line
 *******************************/

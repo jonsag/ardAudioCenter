@@ -4,8 +4,8 @@ void readButtons() {
   byte rotate1 = rotary1.rotate();
   byte push1 = rotary1.push();
 
-  byte rotate2 = rotary2.rotate();
-  byte push2 = rotary2.push();
+  //byte rotate2 = rotary2.rotate();
+  //byte push2 = rotary2.push();
 
   /*******************************
     Rotary encoder 1
@@ -56,9 +56,11 @@ void readButtons() {
     }
   }
 
+
   /*******************************
     Rotary encoder 2
   *******************************/
+  /*
   if (rotate2 != 0 || push2 != 0) {  // button was rotated
     if (debug) {
       Serial.println();
@@ -85,6 +87,7 @@ void readButtons() {
 
       button2Action();
     }
+    */
 }
 
 
