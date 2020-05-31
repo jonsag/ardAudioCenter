@@ -33,7 +33,7 @@ LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27
 #include <SimpleRotary.h>
 
 SimpleRotary rotary1(2, 3, 4); // multi function button, CLK, DT, SW (pin A, pin B, button pin)
-//SimpleRotary rotary2(5, 6, 7); // radio button
+SimpleRotary rotary2(5, 6, 7); // radio button
 
 //const byte debounceDelay = 5; // Set the debounce delay in ms  (Default: 2)
 //const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
@@ -98,7 +98,7 @@ const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
 /*******************************
   SD card module, DFPlayer Mini
 *******************************/
-/*if (dfplayerEnable) {
+/*
   #include <SoftwareSerial.h> // this library adds RX and TX to other pins than 0 and 1
   #include <DFRobotDFPlayerMini.h>
 
@@ -115,7 +115,6 @@ const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
   byte mySoftwareSerialTimeOut = 500;
 
   const byte sdVolume = 10;
-  }
 */
 /*******************************
   Sources
