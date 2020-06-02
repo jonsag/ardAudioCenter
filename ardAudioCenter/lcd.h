@@ -1,14 +1,62 @@
 // to get this to work on esp8266 I had to dl the library from https://github.com/marcoschwartz/LiquidCrystal_I2C/archive/master.zip
 
+int lengthOfFloat(float value) {
+  char buffer[7];
+
+  String tmpStr = dtostrf(value, 7, 2, buffer);
+
+  tmpStr.trim();
+
+  return tmpStr.length();
+
+}
+
+/*******************************
+  Prints FM radio info on first line
+*******************************/
+void printFM() {
+  if (!presetScreen) {
+    lcd.setCursor(2, 0);
+    lcd.print("     ");
+  }
+  
+  lcd.setCursor(lcdColumns - lengthOfFloat(frequency / 100) - 4, 0);
+  lcd.print(" ");
+  
+  lcd.setCursor(lcdColumns - lengthOfFloat(frequency / 100) - 3, 0);
+  lcd.print(frequency / 100);
+
+  lcd.setCursor(lcdColumns - 3, 0);
+  lcd.print("MHz");
+}
+
+void printFMPreset() {
+  lcd.setCursor(3,0);
+  lcd.print(presetNo);
+
+  printFM();
+}
+
 /*******************************
   Prints selected source on top line
 *******************************/
 void printSource() {
   lcd.setCursor(0, 0);
-  lcd.print(sources[sourceNo]);
-  for (int i = 0; i <= lcdColumns - 1 - sources[sourceNo].length(); i++) { // fill up line whith spaces
+  lcd.print(sourcesShort[sourceNo]);
+
+  for (int i = 2; i <= lcdColumns - 1; i++) { // fill up line whith spaces
+    lcd.setCursor(i, 0);
+    lcd.print(" ");
+  }
+  /*
+    for (int i = 0; i <= lcdColumns - 1 - sources[sourceNo].length(); i++) { // fill up line whith spaces
     lcd.setCursor(sources[sourceNo].length() + i, 0);
     lcd.print(" ");
+    }
+  */
+
+  if (sourceNo == 0) {
+    printFM();
   }
 }
 
@@ -46,24 +94,7 @@ void printVolume() {
     lcd.setCursor(i + 9, 1);
 
     if (volume * 35 / 100 >= i * 5 + 1 && volume * 35 / 100 <= (i + 1) * 5) { // volume is somewhere in this char
-
-      switch (volume * 35 / 100 - i * 5) { // which segment should be drawn
-        case 1:
-          lcd.write(byte(1)); //print our custom char
-          break;
-        case 2:
-          lcd.write(byte(2)); //print our custom char
-          break;
-        case 3:
-          lcd.write(byte(3)); //print our custom char
-          break;
-        case 4:
-          lcd.write(byte(4)); //print our custom char
-          break;
-        case 5:
-          lcd.write(byte(5)); //print our custom char
-          break;
-      }
+      lcd.write(byte(volume * 35 / 100 - i * 5)); //print our custom char
     } else {
       lcd.print("-");
     }

@@ -95,7 +95,7 @@ void setup() {
 
   pinMode(btMute, OUTPUT); // mute output on bluetooth module
 
-  digitalWrite(btMute, HIGH); 
+  digitalWrite(btMute, HIGH);
 
   /*******************************
     Starting SPI interface
@@ -126,6 +126,14 @@ void setup() {
   lcd.createChar(3, bar3);
   lcd.createChar(4, bar4);
   lcd.createChar(5, bar5);
+
+  /*
+    lcd.createChar(1, fill1);
+    lcd.createChar(2, fill2);
+    lcd.createChar(3, fill3);
+    lcd.createChar(4, fill4);
+    lcd.createChar(5, fill5);
+  */
 
   /*******************************
     Set up rotary encoders
@@ -224,11 +232,16 @@ void loop() {
 
   readButtons();
 
-  if (millis() - buttonMillis >= screenWait) { // return to home screen after wait time
+  if (millis() - button1Millis >= screenWait) { // return to home screen after wait time
     functionNo = 0;
 
     sourceNo = selectSourceNo; // source might have been changed
 
+  }
+
+  if (millis() - button2Millis >= screenWait && sourceNo == 0 && presetScreen) { // return to home screen after wait time
+    presetScreen = false;
+    printFM();
   }
 
   if (functionNo != oldFunctionNo) {
@@ -254,8 +267,8 @@ void loop() {
 
     if (sourceNo == 0) { // FM radio is selected
       setReceiver();
-    } 
-    
+    }
+
     if (sourceNo == 1) { // unmute bluetooth if selected
       digitalWrite(btMute, LOW);
     } else {

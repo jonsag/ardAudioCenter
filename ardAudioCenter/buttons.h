@@ -10,8 +10,8 @@ void readButtons() {
   /*******************************
     Rotary encoder 1
   *******************************/
-  if (rotate1 != 0 || push1 != 0) {  // button was rotated
-    buttonMillis = millis();
+  if (rotate1 != 0 || push1 != 0) {  // button was manipulated
+    button1Millis = millis();
 
     if (debug) {
       Serial.println();
@@ -46,10 +46,9 @@ void readButtons() {
     }
 
     if (push1) {  // button pressed
-      buttonMillis = millis();
 
       if (debug) {
-        Serial.println(" Pushed");
+        Serial.println("Button pressed");
       }
 
       button1Action();
@@ -60,7 +59,9 @@ void readButtons() {
   /*******************************
     Rotary encoder 2
   *******************************/
-  if (rotate2 != 0 || push2 != 0) {  // button was rotated
+  if (rotate2 != 0 || push2 != 0) {  // button was manipulated
+    button2Millis = millis();
+
     if (debug) {
       Serial.println();
       Serial.print("Rotary encoder 2: ");
@@ -70,22 +71,36 @@ void readButtons() {
       if (debug) {
         Serial.println("CW");
       }
+
+      if (sourceNo == 0) {
+        if (!presetScreen) {
+          increaseFreq();
+        } else {
+          presetUp();
+        }
+      }
     } else if (rotate2 == 2) { // counter clockwise rotation
       if (debug) {
         Serial.println("CCW");
+      }
+      if (sourceNo == 0 ) {
+        if (!presetScreen) {
+          decreaseFreq();
+        } else {
+          presetDown();
+        }
       }
     }
   }
 
   if (push2) {  // button pressed
-      buttonMillis = millis();
 
-      if (debug) {
-        Serial.println(" Pushed");
-      }
-
-      button2Action();
+    if (debug) {
+      Serial.println("Button pressed");
     }
+
+    button2Action();
+  }
 }
 
 

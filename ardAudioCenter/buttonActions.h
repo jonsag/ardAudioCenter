@@ -3,9 +3,6 @@
 *******************************/
 
 void button1Action() {
-  if (debug) {
-    Serial.println("Button on rotary encoder 1 pressed");
-  }
 
   functionNo++;
   if (functionNo > sizeof(functions) / sizeof(functions[0]) - 1) {
@@ -112,9 +109,76 @@ void balanceLeft() {
 /*******************************
   Rotary encoder 2
 *******************************/
+void increaseFreq() {
+  frequency += 5;
+
+  if (frequency > maxFrequency) {
+    frequency = maxFrequency;
+  }
+
+  if (debug) {
+    Serial.print("Frequency: ");
+    Serial.println(frequency);
+  }
+
+  printFM();
+
+}
+
+void decreaseFreq() {
+  frequency -= 5;
+
+  if (frequency < minFrequency) {
+    frequency = minFrequency;
+  }
+
+  if (debug) {
+    Serial.print("Frequency: ");
+    Serial.println(frequency);
+  }
+
+  printFM();
+
+}
 
 void button2Action() {
-  if (debug) {
-    Serial.println("Button on rotary encoder 2 pressed");
+  presetScreen = true;
+
+  printFMPreset();
+}
+
+void presetUp() {
+  presetNo++;
+  if (presetNo > sizeof(preset) / sizeof(preset[0]) - 1) {
+    presetNo = 0;
   }
+
+  frequency = preset[presetNo];
+
+  if (debug) {
+    Serial.print("Preset: ");
+    Serial.print(presetNo);
+    Serial.print(": ");
+    Serial.println(frequency);
+  }
+
+  printFMPreset();
+}
+
+void presetDown() {
+  presetNo--;
+  if (presetNo < 0 || presetNo > sizeof(preset) / sizeof(preset[0]) - 1) {
+    presetNo = sizeof(preset) / sizeof(preset[0]) - 1;
+  }
+
+  frequency = preset[presetNo];
+
+  if (debug) {
+    Serial.print("Preset: ");
+    Serial.print(presetNo);
+    Serial.print(": ");
+    Serial.println(frequency);
+  }
+
+  printFMPreset();
 }

@@ -65,6 +65,9 @@ const int radioDebugInterval = 3000; // how often to print radio debug messages
 double frequency = 10030; // start frequency
 double oldFrequency;
 
+const double minFrequency = 8750;
+const double maxFrequency = 10800;
+
 //const byte radioVolume = 2; // volume output from the module, commented out beacause TEA5767 doesn't seem to have this option
 
 int search_mode = 0;
@@ -89,6 +92,10 @@ RADIO_FREQ preset[] = { // some radio presets
   10230, // SR P4 Sörmland
   10030 // SR P4 Gotland
 };
+
+byte presetNo = 0;
+boolean presetScreen = false;
+boolean presetActive = false;
 
 /*******************************
   Bluetooth module, JDY-62
@@ -120,7 +127,8 @@ const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
   Sources
 *******************************/
 byte sourceNo = 0;
-String sources[] = {"FM Radio", "Bluetooth", "Line In"};
+const String sources[] = {"FM Radio", "Bluetooth", "Line In"};
+const String sourcesShort[] = {"FM", "Bt", "Li"};
 
 byte oldSourceNo = sourceNo;
 byte selectSourceNo;
@@ -146,7 +154,8 @@ byte oldBalance = balance;
 /*******************************
   Times
 *******************************/
-unsigned long buttonMillis; // when was a button pressed/rotated
+unsigned long button1Millis; // when was a button pressed/rotated
+unsigned long button2Millis; // when was a button pressed/rotated
 
 const int screenWait = 2000; // how long to wait before returning to home screen
 
