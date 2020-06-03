@@ -438,7 +438,7 @@ U 1 1 5ECC2A42
 P 8800 5450
 F 0 "U8" H 8800 6031 50  0000 C CNN
 F 1 "MCP41010" H 8800 5940 50  0000 C CNN
-F 2 "My_Misc:DIP-8_W7.62mm_larger" H 8800 5450 50  0001 C CNN
+F 2 "My_Misc:DIP-8_W7.62mm_large" H 8800 5450 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 8800 5450 50  0001 C CNN
 	1    8800 5450
 	1    0    0    -1  
@@ -449,7 +449,7 @@ U 1 1 5ECC220D
 P 7350 5450
 F 0 "U6" H 7350 6031 50  0000 C CNN
 F 1 "MCP41010" H 7350 5940 50  0000 C CNN
-F 2 "My_Misc:DIP-8_W7.62mm_larger" H 7350 5450 50  0001 C CNN
+F 2 "My_Misc:DIP-8_W7.62mm_large" H 7350 5450 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 7350 5450 50  0001 C CNN
 	1    7350 5450
 	1    0    0    -1  
