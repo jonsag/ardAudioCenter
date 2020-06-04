@@ -62,8 +62,8 @@ TEA5767 radio; // create an instance of class for Si4703 chip, pinout SDA and SC
 const boolean radioDebug = false;
 const int radioDebugInterval = 3000; // how often to print radio debug messages
 
-double frequency = 10030; // start frequency
-double oldFrequency;
+double frequency = 10230; // start frequency
+double oldFrequency = frequency;
 
 const double minFrequency = 8750;
 const double maxFrequency = 10800;

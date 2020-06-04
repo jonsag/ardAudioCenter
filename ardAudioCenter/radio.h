@@ -24,7 +24,7 @@ void printRadioDebugInfo() {
 }
 
 
-////////// anything below this line is directly from the web page mentione up top, and is not used in this sketch
+////////// anything below this line is directly from the web page mentioned up top, and is not used in this sketch
 /*
 enum RADIO_STATE { /// State definition for this radio implementation.
   STATE_NONE = 0,

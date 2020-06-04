@@ -165,10 +165,14 @@ void setup() {
 
   radio.init(); // initialize radio
   if (debug) {
-    radio.debugEnable(); // enable information to the serial por
+    radio.debugEnable(); // enable information to the serial port
   }
 
   setReceiver(); // tune the radio receiver
+
+  if (debug) {
+    printRadioDebugInfo();
+  }
 
   /*******************************
     Start DFPlayer Mini
@@ -234,14 +238,22 @@ void loop() {
 
   if (millis() - button1Millis >= screenWait) { // return to home screen after wait time
     functionNo = 0;
-
     sourceNo = selectSourceNo; // source might have been changed
-
   }
 
   if (millis() - button2Millis >= screenWait && sourceNo == 0 && presetScreen) { // return to home screen after wait time
     presetScreen = false;
     printFM();
+  }
+
+  if (sourceNo == 0 && frequency != oldFrequency) { // tune in to new radio frequency
+    setReceiver();
+
+    oldFrequency = frequency;
+
+    if (debug) {
+      printRadioDebugInfo();
+    }
   }
 
   if (functionNo != oldFunctionNo) {
