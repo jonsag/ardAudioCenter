@@ -1204,7 +1204,7 @@ U 1 1 5EE63154
 P 3800 7250
 F 0 "J1" H 3969 7215 50  0000 L CNN
 F 1 "2-pin_power_input_header" H 3800 7050 50  0001 C CNN
-F 2 "My_Headers:2-pin_power_input_header" H 3850 6950 50  0001 C CNN
+F 2 "My_Headers:2-pin_power_input_header_larger_pads" H 3850 6950 50  0001 C CNN
 F 3 "~" H 3800 7250 50  0001 C CNN
 	1    3800 7250
 	1    0    0    -1  
