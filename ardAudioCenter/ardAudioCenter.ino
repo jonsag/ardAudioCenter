@@ -290,6 +290,12 @@ void loop() {
       digitalWrite(btMute, LOW);
     } else {
       digitalWrite(btMute, HIGH);
+
+      if (debug) {
+        Serial.println();
+        Serial.println("Bluetooth muted");
+      }
+      
     }
 
     if (functionNo == 1) {
