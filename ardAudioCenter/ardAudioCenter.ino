@@ -164,6 +164,7 @@ void setup() {
   }
 
   radio.init(); // initialize radio
+
   if (debug) {
     radio.debugEnable(); // enable information to the serial port
   }
@@ -248,37 +249,41 @@ void loop() {
 
   if (sourceNo == 0 && frequency != oldFrequency) { // tune in to new radio frequency
     setReceiver();
-
     oldFrequency = frequency;
-
-    if (debug) {
-      printRadioDebugInfo();
-    }
   }
 
-  if (functionNo != oldFunctionNo) {
+  if (functionNo != oldFunctionNo) { // new function for second row on LCD has been selected
     printFunction();
     oldFunctionNo = functionNo;
   }
 
-  if (volume != oldVolume) {
+  if (volume != oldVolume) { // volume has been changed
     printVolume();
     setVolume();
     oldVolume = volume;
   }
 
-  if (balance != oldBalance) {
+  if (balance != oldBalance) { // balance has been changed
     printBalance();
     setVolume();
     oldBalance = balance;
   }
 
-  if (sourceNo != oldSourceNo) {
+  if (sourceNo != oldSourceNo) { // new source has been selected
     printSource();
     setMux(); // select source via multiplexer
 
     if (sourceNo == 0) { // FM radio is selected
-      setReceiver();
+      radio.setMute(false); // unmute the radio
+      setReceiver(); // set frequency on receiver
+    } else {
+      radio.setMute(true); // mute the radio
+
+      if (debug) {
+        Serial.println();
+        Serial.println("Radio muted");
+      }
+
     }
 
     if (sourceNo == 1) { // unmute bluetooth if selected
@@ -292,9 +297,5 @@ void loop() {
     }
 
     oldSourceNo = sourceNo;
-  }
-
-  if (debug && sourceNo == 0 && radioDebug) { // print radio debug information
-    printRadioDebugInfo();
   }
 }

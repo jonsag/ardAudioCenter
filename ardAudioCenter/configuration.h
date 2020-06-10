@@ -8,7 +8,15 @@ String email = "jonsagebrand@gmail.com";
 *******************************/
 const int serialSpeed = 9600;
 
+/*******************************
+  Debugging
+*******************************/
 const boolean debug = true;
+
+/*******************************
+  misc
+*******************************/
+unsigned long currentMillis = millis();
 
 /*******************************
   Wire I2C setup
@@ -59,43 +67,47 @@ byte volR; // volume on right channel
 
 TEA5767 radio; // create an instance of class for Si4703 chip, pinout SDA and SCL, arduino uno pins A4 and A5
 
-const boolean radioDebug = false;
-const int radioDebugInterval = 3000; // how often to print radio debug messages
+//const boolean radioDebug = false;
+//const int radioDebugInterval = 3000; // how often to print radio debug messages
 
-double frequency = 10230; // start frequency
+RADIO_FREQ preset[] = { // some radio presets
+  9000, // SR P1, Sörmland
+  9480, // SR P4 Östergötland
+  9740, // RIX FM, Nyköping
+  9870, // SR P3, Sörmland
+  10020, // SR P4 Gotland
+  10230, // SR P4 Sörmland
+  10030, // SR P4 Gotland
+  10300, // Star FM, Nyköping
+  10330 // SR P4 Stockholm
+};
+
+byte presetNo = 5;
+
+double frequency = preset[presetNo]; // start frequency
 double oldFrequency = frequency;
 
 const double minFrequency = 8750;
 const double maxFrequency = 10800;
 
-//const byte radioVolume = 2; // volume output from the module, commented out beacause TEA5767 doesn't seem to have this option
+const byte frequencyStep = 10;
 
-int search_mode = 0;
-int search_direction;
-
-unsigned long last_pressed;
-unsigned char buf[5];
-
-int stereo;
-int signal_level;
-
-double currentFrequency;
-
-unsigned long currentMillis = millis();
-
-int inByte;
-int flag = 0;
-
-RADIO_FREQ preset[] = { // some radio presets
-  9000, // SR P1
-  9870, // SR P3
-  10230, // SR P4 Sörmland
-  10030 // SR P4 Gotland
-};
-
-byte presetNo = 0;
 boolean presetScreen = false;
 boolean presetActive = false;
+
+//const byte radioVolume = 15; // volume output from the module, commented out beacause TEA5767 doesn't seem to have this option
+
+//int search_mode = 0;
+//int search_direction;
+
+//unsigned long last_pressed;
+//unsigned char buf[5];
+
+//int stereo;
+//int signal_level;
+
+//int inByte;
+//int flag = 0;
 
 /*******************************
   Bluetooth module, JDY-62

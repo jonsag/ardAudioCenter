@@ -110,7 +110,7 @@ void balanceLeft() {
   Rotary encoder 2
 *******************************/
 void increaseFreq() {
-  frequency += 5;
+  frequency += frequencyStep;
 
   if (frequency > maxFrequency) {
     frequency = maxFrequency;
@@ -126,7 +126,7 @@ void increaseFreq() {
 }
 
 void decreaseFreq() {
-  frequency -= 5;
+  frequency -= frequencyStep;
 
   if (frequency < minFrequency) {
     frequency = minFrequency;
@@ -136,7 +136,7 @@ void decreaseFreq() {
     Serial.print("Frequency: ");
     Serial.println(frequency);
   }
-
+  
   printFM();
 
 }
