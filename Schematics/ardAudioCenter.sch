@@ -54,24 +54,10 @@ Wire Wire Line
 	9200 1100 9900 1100
 Wire Wire Line
 	9200 900  9200 1100
-Text GLabel 10300 1850 2    50   Input ~ 0
+Text GLabel 9400 1350 2    50   Input ~ 0
 BTR+
-Text GLabel 9900 1750 2    50   Input ~ 0
+Text GLabel 9400 1550 2    50   Input ~ 0
 BTL+
-Wire Wire Line
-	9100 1350 9400 1350
-Connection ~ 9100 1350
-Wire Wire Line
-	9100 1850 10300 1850
-Wire Wire Line
-	9100 1350 9100 1850
-Wire Wire Line
-	9200 1550 9400 1550
-Connection ~ 9200 1550
-Wire Wire Line
-	9200 1750 9900 1750
-Wire Wire Line
-	9200 1550 9200 1750
 Text GLabel 10300 2500 2    50   Input ~ 0
 LineR+
 Text GLabel 9900 2400 2    50   Input ~ 0
@@ -185,10 +171,10 @@ Wire Wire Line
 Wire Wire Line
 	9400 3750 9100 3750
 $Comp
-L My_Parts:TEA5767_FM_Radio_Module U16
+L My_Parts:TEA5767_FM_Radio_Module U15
 U 1 1 5ED4F406
 P 9400 3650
-F 0 "U16" H 10154 3546 50  0000 L CNN
+F 0 "U15" H 10154 3546 50  0000 L CNN
 F 1 "TEA5767_FM_Radio_Module" H 10154 3455 50  0000 L CNN
 F 2 "My_Headers:4-pin_TEA5767_radio_module_header_large" H 9650 3850 50  0001 C CNN
 F 3 "" H 9650 3850 50  0001 C CNN
@@ -278,16 +264,9 @@ F 3 "" H 8900 3050 50  0001 C CNN
 	1    8900 3050
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	9300 1000 9300 1450
 Connection ~ 9300 1000
 Wire Wire Line
 	9400 1000 9300 1000
-Wire Wire Line
-	9300 1650 9300 2100
-Connection ~ 9300 1650
-Wire Wire Line
-	9400 1650 9300 1650
 Wire Wire Line
 	9300 2100 9300 2300
 Connection ~ 9300 2100
@@ -325,13 +304,9 @@ Wire Wire Line
 Wire Wire Line
 	8400 2000 9100 2000
 Wire Wire Line
-	8800 1550 9200 1550
-Wire Wire Line
 	8800 2400 8800 1550
 Wire Wire Line
 	8400 2400 8800 2400
-Wire Wire Line
-	8700 1350 9100 1350
 Wire Wire Line
 	8700 1900 8700 1350
 Wire Wire Line
@@ -349,10 +324,10 @@ Wire Wire Line
 Wire Wire Line
 	8400 1800 8500 1800
 $Comp
-L My_Parts:4-pole_RL-input_screw_terminal U15
+L My_Parts:4-pole_RL-input_screw_terminal U14
 U 1 1 5EEF311C
 P 9400 2650
-F 0 "U15" H 9828 2551 50  0000 L CNN
+F 0 "U14" H 9828 2551 50  0000 L CNN
 F 1 "4-pole_RL-input_screw_terminal" H 9828 2460 50  0000 L CNN
 F 2 "" H 9575 2775 50  0001 C CNN
 F 3 "" H 9575 2775 50  0001 C CNN
@@ -360,25 +335,14 @@ F 3 "" H 9575 2775 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L My_Parts:4-pole_RL-input_screw_terminal U14
+L My_Parts:4-pole_RL-input_screw_terminal U13
 U 1 1 5EEF2A55
 P 9400 2000
-F 0 "U14" H 9828 1901 50  0000 L CNN
+F 0 "U13" H 9828 1901 50  0000 L CNN
 F 1 "4-pole_RL-input_screw_terminal" H 9828 1810 50  0000 L CNN
 F 2 "My_Parts:4-pole_screw_terminal_RL_input" H 9575 2125 50  0001 C CNN
 F 3 "" H 9575 2125 50  0001 C CNN
 	1    9400 2000
-	1    0    0    -1  
-$EndComp
-$Comp
-L My_Parts:4-pole_RL-input_screw_terminal U13
-U 1 1 5EEF2655
-P 9400 1350
-F 0 "U13" H 9828 1251 50  0000 L CNN
-F 1 "4-pole_RL-input_screw_terminal" H 9828 1160 50  0000 L CNN
-F 2 "My_Parts:4-pole_screw_terminal_RL_input" H 9575 1475 50  0001 C CNN
-F 3 "" H 9575 1475 50  0001 C CNN
-	1    9400 1350
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -949,7 +913,7 @@ U 1 1 5EDC54EF
 P 5150 6500
 F 0 "U6" H 5548 6301 50  0000 L CNN
 F 1 "JDY-62_Bluetooth_Module" H 5548 6210 50  0000 L CNN
-F 2 "" H 5280 6590 50  0001 C CNN
+F 2 "My_Headers:5-pin_JDY-62_bluetooth_module_header_large" H 5280 6590 50  0001 C CNN
 F 3 "" H 5280 6590 50  0001 C CNN
 	1    5150 6500
 	1    0    0    -1  
@@ -1126,10 +1090,10 @@ Wire Wire Line
 Wire Wire Line
 	7300 5450 7400 5450
 $Comp
-L My_Headers:3-pin_potentiometer_output U17
+L My_Headers:3-pin_potentiometer_output U16
 U 1 1 5EE9C6FE
 P 9550 5350
-F 0 "U17" H 10128 5301 50  0000 L CNN
+F 0 "U16" H 10128 5301 50  0000 L CNN
 F 1 "3-pin_potentiometer_output" H 10128 5210 50  0000 L CNN
 F 2 "My_Headers:3-pin_potentiometer_header_larger_pads" H 9775 5450 50  0001 C CNN
 F 3 "" H 9775 5450 50  0001 C CNN
@@ -1159,11 +1123,6 @@ Wire Wire Line
 Wire Wire Line
 	4100 3600 4850 3600
 Connection ~ 4100 2850
-Wire Wire Line
-	9400 1450 9300 1450
-Connection ~ 9300 1450
-Wire Wire Line
-	9300 1450 9300 1650
 Wire Wire Line
 	9400 2750 9300 2750
 Connection ~ 9300 2750
@@ -1241,4 +1200,10 @@ F 3 "" H 3500 7450 50  0001 C CNN
 $EndComp
 Text Notes 3750 7600 0    50   ~ 0
 This is to power the \nJDY-62 module
+Wire Wire Line
+	9300 1000 9300 2100
+Wire Wire Line
+	8800 1550 9400 1550
+Wire Wire Line
+	8700 1350 9400 1350
 $EndSCHEMATC
