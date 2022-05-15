@@ -1,75 +1,90 @@
+#include "Arduino.h"
+
 #include "configuration.h" // sets all variables
-#include "radio.h" // control the FM radio module
+#include "radioTEA5767.h"  // control the FM radio module
 //#include "sdCard.h" // control the DFPlayer Mini SD Card module
-#include "lcd.h" // manages all info on LCD
+#include "lcd.h"     // manages all info on LCD
 #include "buttons.h" // handle button presses
 #include "sources.h" // sets source
-#include "volume.h" // sets volume
+#include "volume.h"  // sets volume
 
-void setup() {
+void setup()
+{
   /*******************************
     Start wire, I2C
   *******************************/
-  //Wire.begin(D2, D1); // SDA -> D2, SCL -> D1 // wire is not needed
+  // Wire.begin(SDApin, SCLpin);
 
   /*******************************
     Start LCD
   *******************************/
-  lcd.init(); // initialize the lcd
+  lcd.begin(); // initialize the lcd
   lcd.backlight();
   lcd.setCursor(0, 0); // print name of this program and boot message to the LCD
   lcd.print(programName);
   lcd.setCursor(0, 1);
   lcd.print("Booting ...");
 
+  delay(bootDelay); // delay to be able to see message on LCD
+
   /*******************************
     Start serial
   *******************************/
-  if (debug) {
-    lcd.setCursor(0, 1);
-    lcd.print("Starting serial ...");
+#ifdef __DEBUG__
+  lcd.setCursor(0, 1);
+  lcd.print("Starting serial ...");
 
-    Serial.begin(serialSpeed);
+  delay(bootDelay); // delay to be able to see message on LCD
 
-    /*******************************
-      Print start information
-    *******************************/
-    Serial.println(programName); // print information
-    Serial.println(date);
-    Serial.print("by ");
-    Serial.println(author);
-    Serial.println(email);
-    Serial.println();
+  Serial.begin(serialSpeed);
+#endif
 
-    Serial.print("Number of sources: ");
-    Serial.println(sizeof(sources) / sizeof(sources[0]));
-    Serial.println();
+  /*******************************
+    Print start information
+  *******************************/
+  DEBUG(programName);
+  DEBUG("\n");
+  DEBUG(date);
+  DEBUG("\n");
+  DEBUG("by ");
+  DEBUG("\n");
+  DEBUG(author);
+  DEBUG("\n");
+  DEBUG(email);
+  DEBUG("\n\n");
 
-    Serial.print("Source selected: ");
-    Serial.println(sourceNo);
-    Serial.println(sources[sourceNo]);
-    Serial.println();
+  DEBUG("Number of sources: ");
+  DEBUG(sizeof(sources) / sizeof(sources[0]));
+  DEBUG("\n\n");
 
-    Serial.print("Function selected: ");
-    Serial.println(functionNo);
-    Serial.println(functions[functionNo]);
-    Serial.println();
+  DEBUG("Source selected: ");
+  DEBUG(sourceNo);
+  DEBUG("\n");
+  DEBUG(sources[sourceNo]);
+  DEBUG("\n\n");
 
-    Serial.print("Volume: ");
-    Serial.print(volume);
-    Serial.println("%");
-    Serial.print("Balance: ");
-    Serial.println(balance);
-    Serial.println();
+  DEBUG("Function selected: ");
+  DEBUG(functionNo);
+  DEBUG("\n");
+  DEBUG(functions[functionNo]);
+  DEBUG("\n\n");
 
-    Serial.print("FM radio frequency: ");
-    Serial.println(frequency);
-    Serial.print("FM radio volume: ");
-    /* commented out beacause TEA5767 doesn't seem to have this optio
-      Serial.println(radioVolume);
-      Serial.println();
-    */
-  }
+  DEBUG("Volume: ");
+  DEBUG(volume);
+  DEBUG("%");
+  DEBUG("\n");
+  DEBUG("Balance: ");
+  DEBUG(balance);
+  DEBUG("\n\n");
+
+  DEBUG("FM radio frequency: ");
+  DEBUG(frequency);
+  DEBUG("\n");
+  /* commented out beacause TEA5767 doesn't seem to have this option
+    DEBUG("FM radio volume: ");
+    DEBUG(radioVolume);
+  */
+  DEBUG("\n\n");
 
   /*******************************
     Define pins
@@ -77,24 +92,23 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Defining pins ...");
 
-  if (debug) {
-    Serial.println("Defining pins ...");
-    Serial.println();
-  }
+  delay(bootDelay); // delay to be able to see message on LCD
 
-  for (int i = 0; i < 2; i++) { // define multiplexer pins
+  DEBUG("Defining pins ...");
+  DEBUG("\n\n");
+
+  for (int i = 0; i < 2; i++)
+  { // define multiplexer pins
     pinMode(muxPins[i], OUTPUT);
     digitalWrite(muxPins[i], LOW);
   }
 
-  pinMode (csPL, OUTPUT); // chip select for left channel potentiometer
-  pinMode (csPR, OUTPUT); // chip select for right channel potentiometer
-
+  pinMode(csPL, OUTPUT); // chip select for left channel potentiometer
+  pinMode(csPR, OUTPUT); // chip select for right channel potentiometer
   digitalWrite(csPL, HIGH);
   digitalWrite(csPR, HIGH);
 
   pinMode(btMute, OUTPUT); // mute output on bluetooth module
-
   digitalWrite(btMute, HIGH);
 
   /*******************************
@@ -103,12 +117,12 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Starting SPI ...");
 
-  if (debug) {
-    Serial.println("Starting SPI ...");
-    Serial.println();
-  }
+  delay(bootDelay); // delay to be able to see message on LCD
 
-  SPI.begin();
+  DEBUG("Starting SPI ...");
+  DEBUG("\n\n");
+
+  SPI.begin;
 
   /*******************************
     Build custom characters
@@ -116,10 +130,10 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Building chars ...");
 
-  if (debug) {
-    Serial.println("Building custom characters ...");
-    Serial.println();
-  }
+  delay(bootDelay); // delay to be able to see message on LCD
+
+  DEBUG("Building custom characters ...");
+  DEBUG("\n\n");
 
   lcd.createChar(1, bar1);
   lcd.createChar(2, bar2);
@@ -142,6 +156,8 @@ void setup() {
     lcd.setCursor(0, 1);
     lcd.print("Setting up encoders ...");
 
+delay(bootDelay); // delay to be able to see message on LCD
+
     if (debug) {
       Serial.println("Setting up rotary encoders  ...");
       Serial.println();
@@ -158,22 +174,22 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Starting receiver ...");
 
-  if (debug) {
-    Serial.println("Starting FM radio recevier  ...");
-    Serial.println();
-  }
+  delay(bootDelay); // delay to be able to see message on LCD
+
+  DEBUG("Starting FM radio receiver  ...");
+  DEBUG("\n\n");
 
   radio.init(); // initialize radio
 
-  if (debug) {
-    radio.debugEnable(); // enable information to the serial port
-  }
+#ifdef __DEBUG__
+  radio.debugEnable(); // enable information to the serial port
+#endif
 
   setReceiver(); // tune the radio receiver
 
-  if (debug) {
-    printRadioDebugInfo();
-  }
+#ifdef __DEBUG__
+  printRadioDebugInfo();
+#endif
 
   /*******************************
     Start DFPlayer Mini
@@ -182,43 +198,43 @@ void setup() {
     lcd.setCursor(0, 1);
     lcd.print("Starting sw serial ...");
 
-    if (debug) {
-      Serial.println("Start software serial  ...");
-      Serial.println();
-    }
+    delay(bootDelay); // delay to be able to see message on LCD
+
+    DEBUG("Start software serial  ...");
+    DEBUG("\n\n")
 
     mySoftwareSerial.begin(9600);
 
     lcd.setCursor(0, 1);
     lcd.print("Starting DFPlayer Mini ...");
 
-    if (debug) {
-      Serial.println();
-      Serial.println("DFRobot DFPlayer Mini");
-      Serial.println("Inicializando modulo DFPlayer... (3~5 segundos)");
-    }
+    delay(bootDelay); // delay to be able to see message on LCD
+
+    DEBUG("DFRobot DFPlayer Mini");
+    DEBUG("\n")
+      DEBUG("Starting DFPlayer Mini ...");
+    DEBUG("\n\n");
 
     if (!myDFPlayer.begin(mySoftwareSerial)) {
-      Serial.println("Could not initialize DFPlayer mini: ");
-      Serial.println("1. Check DFPlayer connections");
-      Serial.println("2. Insert SD card");
+      DEBUG("Could not initialize DFPlayer mini: ");
+      DEBUG("\n");
+      DEBUG("1. Check DFPlayer connections");
+      DEBUG("\n")
+      DEBUG("2. Insert SD card");
+      DEBUG("\n");
       while (true);
     }
-    if (debug) {
-      Serial.println();
-      Serial.println("Modulo DFPlayer Mini inicializado!");
-    }
+    DEBUG("DFPlayer Mini ready");
+    DEBUG("\n\n")
 
     myDFPlayer.setTimeOut(mySoftwareSerialTimeOut); // timeout serial 500ms
     myDFPlayer.volume(sdVolume); // volume 10, between 0 and 30
     myDFPlayer.EQ(0); // equalizer set to normal
 
     maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
-    if (debug) {
-      Serial.println();
-      Serial.print("Number of tracks on SD card: ");
-      Serial.println(maxSDSongs);
-    }
+    DEBUG("Number of tracks on SD card: ");
+      DEBUG(maxSDSongs);
+    DEBUG("\n\n")
 
     menu_opcoes(); // mostra o menu de comandos
   */
@@ -230,75 +246,83 @@ void setup() {
   printFunction();
 
   setVolume();
-
 }
 
-void loop() {
+void loop()
+{
 
   readButtons();
 
-  if (millis() - button1Millis >= screenWait) { // return to home screen after wait time
+  if (millis() - button1Millis >= screenWait)
+  { // return to home screen after wait time
     functionNo = 0;
     sourceNo = selectSourceNo; // source might have been changed
   }
 
-  if (millis() - button2Millis >= screenWait && sourceNo == 0 && presetScreen) { // return to home screen after wait time
+  if (millis() - button2Millis >= screenWait && sourceNo == 0 && presetScreen)
+  { // return to home screen after wait time
     presetScreen = false;
     printFM();
   }
 
-  if (sourceNo == 0 && frequency != oldFrequency) { // tune in to new radio frequency
+  if (sourceNo == 0 && frequency != oldFrequency)
+  { // tune in to new radio frequency
     setReceiver();
     oldFrequency = frequency;
   }
 
-  if (functionNo != oldFunctionNo) { // new function for second row on LCD has been selected
+  if (functionNo != oldFunctionNo)
+  { // new function for second row on LCD has been selected
     printFunction();
     oldFunctionNo = functionNo;
   }
 
-  if (volume != oldVolume) { // volume has been changed
+  if (volume != oldVolume)
+  { // volume has been changed
     printVolume();
     setVolume();
     oldVolume = volume;
   }
 
-  if (balance != oldBalance) { // balance has been changed
+  if (balance != oldBalance)
+  { // balance has been changed
     printBalance();
     setVolume();
     oldBalance = balance;
   }
 
-  if (sourceNo != oldSourceNo) { // new source has been selected
+  if (sourceNo != oldSourceNo)
+  { // new source has been selected
     printSource();
     setMux(); // select source via multiplexer
 
-    if (sourceNo == 0) { // FM radio is selected
+    if (sourceNo == 0)
+    {                       // FM radio is selected
       radio.setMute(false); // unmute the radio
-      setReceiver(); // set frequency on receiver
-    } else {
+      setReceiver();        // set frequency on receiver
+    }
+    else
+    {
       radio.setMute(true); // mute the radio
 
-      if (debug) {
-        Serial.println();
-        Serial.println("Radio muted");
-      }
-
+      DEBUG("Radio muted");
+      DEBUG("\n\n");
     }
 
-    if (sourceNo == 1) { // unmute bluetooth if selected
+    if (sourceNo == 1)
+    { // unmute bluetooth if selected
       digitalWrite(btMute, LOW);
-    } else {
+    }
+    else
+    {
       digitalWrite(btMute, HIGH);
 
-      if (debug) {
-        Serial.println();
-        Serial.println("Bluetooth muted");
-      }
-      
+      DEBUG("Bluetooth muted");
+      DEBUG("\n\n");
     }
 
-    if (functionNo == 1) {
+    if (functionNo == 1)
+    {
       printSourceSelect();
     }
 

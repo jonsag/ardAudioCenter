@@ -1,6 +1,7 @@
 #include "buttonActions.h" // makes buttons do something
 
-void readButtons() {
+void readButtons()
+{
   byte rotate1 = rotary1.rotate();
   byte push1 = rotary1.push();
 
@@ -10,99 +11,113 @@ void readButtons() {
   /*******************************
     Rotary encoder 1
   *******************************/
-  if (rotate1 != 0 || push1 != 0) {  // button was manipulated
+  if (rotate1 != 0 || push1 != 0)
+  { // button was manipulated
     button1Millis = millis();
 
-    if (debug) {
-      Serial.println();
-      Serial.print("Rotary encoder 1: ");
-    }
+    DEBUG("Rotary encoder 1: ");
 
-    if ( rotate1 == 1) { // clockwise rotation
-      if (debug) {
-        Serial.println("CW");
-      }
+    if (rotate1 == 1)
+    { // clockwise rotation
+      DEBUG("CW");
+      DEBUG("\n");
 
-      if (functionNo == 0) { // volume up
+      if (functionNo == 0)
+      { // volume up
         increaseVolume();
-      } else if ( functionNo == 1) { // source up
+      }
+      else if (functionNo == 1)
+      { // source up
         sourceUp();
-      } else if ( functionNo == 2) { //balance right
+      }
+      else if (functionNo == 2)
+      { // balance right
         balanceRight();
       }
+    }
+    else if (rotate1 == 2)
+    { // counter clockwise rotation
+      DEBUG("CCW");
+      DEBUG("\n");
 
-    } else if (rotate1 == 2) { // counter clockwise rotation
-      if (debug) {
-        Serial.println("CCW");
-      }
-
-      if (functionNo == 0) { // volume down
+      if (functionNo == 0)
+      { // volume down
         decreaseVolume();
-      } else if ( functionNo == 1) { // source down
+      }
+      else if (functionNo == 1)
+      { // source down
         sourceDown();
-      } else if ( functionNo == 2) { // balance left
+      }
+      else if (functionNo == 2)
+      { // balance left
         balanceLeft();
       }
     }
 
-    if (push1) {  // button pressed
+    if (push1)
+    { // button pressed
 
-      if (debug) {
-        Serial.println("Button pressed");
-      }
+      DEBUG("Button pressed");
+      DEBUG("\n");
 
       button1Action();
     }
   }
 
-
   /*******************************
     Rotary encoder 2
   *******************************/
-  if (rotate2 != 0 || push2 != 0) {  // button was manipulated
+  if (rotate2 != 0 || push2 != 0)
+  { // button was manipulated
     button2Millis = millis();
 
-    if (debug) {
-      Serial.println();
-      Serial.print("Rotary encoder 2: ");
-    }
+    DEBUG("Rotary encoder 2: ");
 
-    if ( rotate2 == 1) { // clockwise rotation
-      if (debug) {
-        Serial.println("CW");
-      }
+    if (rotate2 == 1)
+    { // clockwise rotation
+      DEBUG("CW");
+      DEBUG("\n");
 
-      if (sourceNo == 0) {
-        if (!presetScreen) {
+      if (sourceNo == 0)
+      {
+        if (!presetScreen)
+        {
           increaseFreq();
-        } else {
+        }
+        else
+        {
           presetUp();
         }
       }
-    } else if (rotate2 == 2) { // counter clockwise rotation
-      if (debug) {
-        Serial.println("CCW");
-      }
-      if (sourceNo == 0 ) {
-        if (!presetScreen) {
+    }
+    else if (rotate2 == 2)
+    { // counter clockwise rotation
+      DEBUG("CCW");
+      DEBUG("\n");
+
+      if (sourceNo == 0)
+      {
+        if (!presetScreen)
+        {
           decreaseFreq();
-        } else {
+        }
+        else
+        {
           presetDown();
         }
       }
     }
   }
 
-  if (push2) {  // button pressed
+  if (push2)
+  { // button pressed
 
-    if (debug) {
-      Serial.println("Button pressed");
-    }
+    DEBUG("Button pressed");
+    DEBUG("\n");
 
     button2Action();
   }
 }
-
 
 /*
   byte i = rotary.pushLong(1000); // Check to see if button is pressed for 1 second.

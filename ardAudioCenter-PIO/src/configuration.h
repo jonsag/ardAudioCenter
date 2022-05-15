@@ -1,5 +1,5 @@
 String programName = "ardAudioCenter";
-String date = "20200526";
+String date = "20220323";
 String author = "Jon Sagebrand";
 String email = "jonsagebrand@gmail.com";
 
@@ -8,79 +8,58 @@ String email = "jonsagebrand@gmail.com";
 *******************************/
 const int serialSpeed = 9600;
 
+const int bootDelay = 100; // delay after each boot message
+
 /*******************************
   Debugging
 *******************************/
-const boolean debug = true;
+#define __DEBUG__ // uncomment to turn on debugging messages
 
-/*******************************
-  misc
-*******************************/
-unsigned long currentMillis = millis();
+#ifdef __DEBUG__
+#define DEBUG(...) Serial.print(__VA_ARGS__)
+#define DEBUGLN(...) Serial.println(__VA_ARGS__)
+#else
+#define DEBUG(...)
+#define DEBUGLN(...)
+#endif
 
 /*******************************
   Wire I2C setup
 *******************************/
-//#include <Wire.h> // arduino: SDA -> A4, SCL -> A5; nodemcu: SDA -> D2, SCL -> D1 // wire is not needed
+#include <Wire.h>
 
-/*******************************
-  LCD setup
-*******************************/
-#include <LiquidCrystal_I2C.h>
-
-const byte lcdColumns = 16;
-const byte lcdRows = 2;
-
-LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27 for a 16 chars and 2 line display
-
-#include "chars.h" // load custom characters
-
-/*******************************
-  Rotary encoders
-*******************************/
-#include <SimpleRotary.h>
-
-SimpleRotary rotary1(2, 3, 4); // multi function button, CLK, DT, SW (pin A, pin B, button pin)
-SimpleRotary rotary2(5, 6, 7); // radio button
-
-//const byte debounceDelay = 5; // Set the debounce delay in ms  (Default: 2)
-//const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
-
-/*******************************
-  Digital potentiometers, MCP41010
-*******************************/
-#include <SPI.h> // loads the SPI library
-
-const int csPL = 16; // CS (chip select for MCP41010, digital potentiometer), left channel volume, 16 => A2
-const int csPR = 17; // CS, right channel volume, 17 => A3
-
-byte volL; // volume on left channel
-byte volR; // volume on right channel
+// arduino: SDA -> A4, SCL -> A5
+// nodemcu: SDA -> D2, SCL -> D1
+#define SDApin A4
+#define SCLpin A5
 
 /*******************************
   FM radio module, TEA5767
 *******************************/
+#include <radio.h>
 #include <TEA5767.h>
-//#include <Wire.h>
+
+#include <RDSParser.h>
 
 #define radioBand RADIO_BAND_FM // the band that will be tuned is FM
 
-TEA5767 radio; // create an instance of class for Si4703 chip, pinout SDA and SCL, arduino uno pins A4 and A5
-
-//const boolean radioDebug = false;
-//const int radioDebugInterval = 3000; // how often to print radio debug messages
-
-RADIO_FREQ preset[] = { // some radio presets
-  9000, // SR P1, Sörmland
-  9480, // SR P4 Östergötland
-  9740, // RIX FM, Nyköping
-  9870, // SR P3, Sörmland
-  10020, // SR P4 Gotland
-  10230, // SR P4 Sörmland
-  10030, // SR P4 Gotland
-  10300, // Star FM, Nyköping
-  10330 // SR P4 Stockholm
+RADIO_FREQ preset[] = {
+    // some radio presets
+    9000,  // SR P1, Sörmland
+    9480,  // SR P4 Östergötland
+    9740,  // RIX FM, Nyköping
+    9870,  // SR P3, Sörmland
+    10020, // SR P4 Gotland
+    10230, // SR P4 Sörmland
+    10030, // SR P4 Gotland
+    10300, // Star FM, Nyköping
+    10330  // SR P4 Stockholm
 };
+
+#define FIX_BAND RADIO_BAND_FM
+
+// const boolean radioDebug = false;
+// const int radioDebugInterval = 3000; // how often to print radio debug messages
 
 byte presetNo = 5;
 
@@ -95,19 +74,58 @@ const byte frequencyStep = 10;
 boolean presetScreen = false;
 boolean presetActive = false;
 
-//const byte radioVolume = 15; // volume output from the module, commented out beacause TEA5767 doesn't seem to have this option
+// const byte radioVolume = 15; // volume output from the module, commented out beacause TEA5767 doesn't seem to have this option
 
-//int search_mode = 0;
-//int search_direction;
+// int search_mode = 0;
+// int search_direction;
 
-//unsigned long last_pressed;
-//unsigned char buf[5];
+// unsigned long last_pressed;
+// unsigned char buf[5];
 
-//int stereo;
-//int signal_level;
+// int stereo;
+// int signal_level;
 
-//int inByte;
-//int flag = 0;
+// int inByte;
+// int flag = 0;
+
+/*******************************
+  LCD setup
+*******************************/
+#include <LiquidCrystal_I2C.h>
+
+const byte lcdColumns = 16;
+const byte lcdRows = 2;
+
+LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+#include "chars.h" // load custom characters
+
+/*******************************
+  misc
+*******************************/
+unsigned long currentMillis = millis();
+
+/*******************************
+  Rotary encoders
+*******************************/
+#include <SimpleRotary.h>
+
+SimpleRotary rotary1(2, 3, 4); // multi function button, CLK, DT, SW (pin A, pin B, button pin)
+SimpleRotary rotary2(5, 6, 7); // radio button
+
+// const byte debounceDelay = 5; // Set the debounce delay in ms  (Default: 2)
+// const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
+
+/*******************************
+  Digital potentiometers, MCP41010
+*******************************/
+#include <SPI.h> // loads the SPI library
+
+const int csPL = 16; // CS (chip select for MCP41010, digital potentiometer), left channel volume, 16 => A2
+const int csPR = 17; // CS, right channel volume, 17 => A3
+
+byte volL; // volume on left channel
+byte volR; // volume on right channel
 
 /*******************************
   Bluetooth module, JDY-62
@@ -135,6 +153,7 @@ const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
 
   const byte sdVolume = 10;
 */
+
 /*******************************
   Sources
 *******************************/

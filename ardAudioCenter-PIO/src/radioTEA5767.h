@@ -1,6 +1,33 @@
-// An example of how to implement the TEA5767 arduino module can be found at https://github.com/mathertel/Radio/blob/master/examples/LCDRadio/LCDRadio.ino
 
-void printRadioDebugInfo() {
+TEA5767 radio; // create an instance of class for Si4703 chip, pinout SDA and SCL, arduino uno pins A4 and A5
+
+RDSParser rds; /// get a RDS parser
+
+/// State definition for this radio implementation.
+enum RADIO_STATE
+{
+  STATE_PARSECOMMAND, ///< waiting for a new command character.
+
+  STATE_PARSEINT, ///< waiting for digits for the parameter.
+  STATE_EXEC      ///< executing the command.
+};
+
+RADIO_STATE state; ///< The state variable is used for parsing input characters.
+
+/// Update the ServiceName text on the LCD display.
+void DisplayServiceName(char *name)
+{
+  Serial.print("RDS:");
+  Serial.println(name);
+} // DisplayServiceName()
+
+void RDS_process(uint16_t block1, uint16_t block2, uint16_t block3, uint16_t block4)
+{
+  rds.processData(block1, block2, block3, block4);
+}
+
+void printRadioDebugInfo()
+{
   char s[12];
   radio.formatFrequency(s, sizeof(s));
 
@@ -16,17 +43,17 @@ void printRadioDebugInfo() {
   Serial.println();
 }
 
-void setReceiver() {
+void setReceiver()
+{
   radio.setBandFrequency(radioBand, frequency + 1); // set band and station
-  //radio.setFrequency(frequency); // on power on go to preset frequency
+  // radio.setFrequency(frequency); // on power on go to preset frequency
 
-  //radio.setVolume(radioVolume); // commented out beacause TEA5767 doesn't seem to have this option
+  // radio.setVolume(radioVolume); // commented out beacause TEA5767 doesn't seem to have this option
   radio.setMono(false);
 
-  if (debug) {
-    printRadioDebugInfo();
-  }
-
+#ifdef __DEBUG__
+  printRadioDebugInfo();
+#endif
 }
 
 ////////// anything below this line is directly from the web page mentioned up top, and is not used in this sketch

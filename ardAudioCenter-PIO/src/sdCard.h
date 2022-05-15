@@ -3,7 +3,8 @@
 
 // Code on this page originates from https://www.instructables.com/id/MP3-Player-With-Arduino/
 
-void menu_opcoes() {
+void menu_opcoes()
+{
   Serial.println();
   Serial.println("Comandos:");
   Serial.print(" [1-");
@@ -16,13 +17,14 @@ void menu_opcoes() {
   Serial.println();
 }
 
-void playSDCard() {
-  //Aguarda a entrada de dados pela serial
+void playSDCard()
+{
+  // Aguarda a entrada de dados pela serial
   while (Serial.available() > 0)
   {
-    //recupera os dados de entrada
+    // recupera os dados de entrada
     sdBuf = Serial.readStringUntil('\n');
-    //Reproducao (índice da música)
+    // Reproducao (índice da música)
     if ((sdBuf.toInt() >= 1) && (sdBuf.toInt() <= maxSDSongs))
     {
       Serial.print("Reproduzindo musica: ");
@@ -30,7 +32,7 @@ void playSDCard() {
       myDFPlayer.play(sdBuf.toInt()); // dá play na música
       menu_opcoes();
     }
-    //Pausa/Continua a musica
+    // Pausa/Continua a musica
     if (sdBuf == "p")
     {
       if (sdPause)
@@ -48,7 +50,7 @@ void playSDCard() {
       menu_opcoes();
     }
 
-    //Parada
+    // Parada
     if (sdBuf == "s")
     {
       myDFPlayer.stop();
@@ -56,7 +58,7 @@ void playSDCard() {
       menu_opcoes();
     }
 
-    //Seleciona equalizacao
+    // Seleciona equalizacao
     if (sdBuf == "e")
     {
       sdEqualizer++;
@@ -71,7 +73,7 @@ void playSDCard() {
       menu_opcoes();
     }
 
-    //Aumenta volume
+    // Aumenta volume
     if (sdBuf == "+")
     {
       myDFPlayer.volumeUp();
@@ -79,7 +81,7 @@ void playSDCard() {
       Serial.println(myDFPlayer.readVolume());
       menu_opcoes();
     }
-    //Diminui volume
+    // Diminui volume
     if (sdBuf == "-")
     {
       myDFPlayer.volumeDown();
@@ -87,5 +89,5 @@ void playSDCard() {
       Serial.println(myDFPlayer.readVolume());
       menu_opcoes();
     }
-  } //while
-} //loop
+  } // while
+} // loop
