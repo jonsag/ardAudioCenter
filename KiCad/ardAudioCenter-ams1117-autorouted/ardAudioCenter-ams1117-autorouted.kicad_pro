@@ -347,7 +347,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "ardAudioCenter-ams1117.kicad_pro",
+    "filename": "ardAudioCenter-ams1117-autorouted.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -380,7 +380,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "specctra_dsn": "ardAudioCenter-ams1117.dsn",
+      "specctra_dsn": "ardAudioCenter-ams1117-autorouted.dsn",
       "step": "",
       "vrml": ""
     },
