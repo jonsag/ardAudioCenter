@@ -3861,7 +3861,7 @@
     (property "Value" "VolR" (id 1) (at 257.2512 139.446 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "My_Headers:3-pin_potentiometer_header_larger_pads" (id 2) (at 248.285 133.35 0)
+    (property "Footprint" "My_Headers:3-pin JST Potentiometer" (id 2) (at 248.285 133.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 248.285 133.35 0)
@@ -3881,7 +3881,7 @@
     (property "Value" "VolL" (id 1) (at 202.6412 139.446 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "My_Headers:3-pin_potentiometer_header_larger_pads" (id 2) (at 193.675 133.35 0)
+    (property "Footprint" "My_Headers:3-pin JST Potentiometer" (id 2) (at 193.675 133.35 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 193.675 133.35 0)
@@ -3901,7 +3901,7 @@
     (property "Value" "330R" (id 1) (at 107.188 134.493 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Footprint" "" (id 2) (at 107.188 133.35 90)
+    (property "Footprint" "My_Misc:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal_larger_pads" (id 2) (at 107.188 133.35 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 105.41 133.35 0)
@@ -4222,7 +4222,7 @@
       (reference "R2") (unit 1) (value "10k") (footprint "My_Misc:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal_larger_pads")
     )
     (path "/00000000-0000-0000-0000-00005eea47b7"
-      (reference "R3") (unit 1) (value "330R") (footprint "")
+      (reference "R3") (unit 1) (value "330R") (footprint "My_Misc:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal_larger_pads")
     )
     (path "/00000000-0000-0000-0000-00005ee57baf"
       (reference "U1") (unit 1) (value "2-pole_power_in_screw_terminal") (footprint "My_Parts:2-pole_power_in_screw_terminal")
@@ -4249,7 +4249,7 @@
       (reference "U8") (unit 1) (value "MCP41010") (footprint "My_Misc:DIP-8_W7.62mm_large")
     )
     (path "/00000000-0000-0000-0000-00005ee9ceae"
-      (reference "U9") (unit 1) (value "VolL") (footprint "My_Headers:3-pin_potentiometer_header_larger_pads")
+      (reference "U9") (unit 1) (value "VolL") (footprint "My_Headers:3-pin JST Potentiometer")
     )
     (path "/00000000-0000-0000-0000-00005ecc0ed1"
       (reference "U10") (unit 1) (value "CD4052B") (footprint "My_Misc:DIP-16_W7.62mm_larger")
@@ -4270,7 +4270,7 @@
       (reference "U15") (unit 1) (value "TEA5767_FM_Radio_Module") (footprint "My_Headers:4-pin_TEA5767_radio_module_header_large")
     )
     (path "/00000000-0000-0000-0000-00005ee9c6fe"
-      (reference "U16") (unit 1) (value "VolR") (footprint "My_Headers:3-pin_potentiometer_header_larger_pads")
+      (reference "U16") (unit 1) (value "VolR") (footprint "My_Headers:3-pin JST Potentiometer")
     )
   )
 )
