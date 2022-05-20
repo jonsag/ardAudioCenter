@@ -87,11 +87,10 @@ void setup()
   debugMessln("Defining pins ...");
   debugMessln();
 
-  for (int i = 0; i < 2; i++)
-  { // define multiplexer pins
-    pinMode(muxPins[i], OUTPUT);
-    digitalWrite(muxPins[i], LOW);
-  }
+  pinMode(muxPin0, OUTPUT);
+  pinMode(muxPin1, OUTPUT);
+  digitalWrite(muxPin0, LOW);
+  digitalWrite(muxPin1, LOW);
 
   pinMode(csPL, OUTPUT); // chip select for left channel potentiometer
   pinMode(csPR, OUTPUT); // chip select for right channel potentiometer
@@ -106,6 +105,7 @@ void setup()
   /*******************************
     Starting SPI interface
   *******************************/
+  /* seems there's no need for this
   lcd.setCursor(0, 1);
   lcd.print("Starting SPI ...");
 
@@ -115,6 +115,7 @@ void setup()
   SPI.begin;
 
   delay(bootDelay); // delay to be able to see message on LCD
+  */
 
   /*******************************
     Build custom characters
@@ -144,21 +145,23 @@ void setup()
   /*******************************
     Set up rotary encoders
   *******************************/
-  /* all commented out because the default settings are fine
-    lcd.setCursor(0, 1);
-    lcd.print("Setting up encoders ...");
+  lcd.setCursor(0, 1);
+  lcd.print("Setting up encoders ...");
 
-    if (debug) {
-      debugMessln("Setting up rotary encoders  ...");
-      debugMessln();
-    }
+#if DEBUG
+  debugMessln("Setting up rotary encoders  ...");
+  debugMessln();
+#endif
 
-    rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
-    rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
-    rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
+  rotary1.setTrigger(HIGH); // set the trigger to be either a HIGH or LOW pin (Default: HIGH), note this sets all three pins to use the same state
+  rotary1.setDebounceDelay(debounceDelay);
+  rotary1.setErrorDelay(errorDelay);
 
-    delay(bootDelay); // delay to be able to see message on LCD
-  */
+  rotary2.setTrigger(HIGH);
+  rotary2.setDebounceDelay(debounceDelay);
+  rotary2.setErrorDelay(errorDelay);
+
+  delay(bootDelay); // delay to be able to see message on LCD
 
   /*******************************
     Start FM radio receiver

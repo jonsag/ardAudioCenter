@@ -2,11 +2,11 @@
 
 void readButtons()
 {
-  byte rotate1 = rotary1.rotate();
-  byte push1 = rotary1.push();
+  rotate1 = rotary1.rotate();
+  push1 = rotary1.push();
 
-  byte rotate2 = rotary2.rotate();
-  byte push2 = rotary2.push();
+  rotate2 = rotary2.rotate();
+  push2 = rotary2.push();
 
   /*******************************
     Rotary encoder 1

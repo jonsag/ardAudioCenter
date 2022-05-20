@@ -1,7 +1,7 @@
-String programName = "ardAudioCenter";
-String date = "20220520";
-String author = "Jon Sagebrand";
-String email = "jonsagebrand@gmail.com";
+#define programName "ardAudioCenter"
+#define date "20220520"
+#define author "Jon Sagebrand"
+#define email "jonsagebrand@gmail.com"
 
 /*******************************
   Serial
@@ -102,11 +102,6 @@ LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27
 #include "chars.h" // load custom characters
 
 /*******************************
-  misc
-*******************************/
-unsigned long currentMillis = millis();
-
-/*******************************
   Rotary encoders
 *******************************/
 #include <SimpleRotary.h>
@@ -114,16 +109,22 @@ unsigned long currentMillis = millis();
 SimpleRotary rotary1(2, 3, 4); // multi function button, CLK, DT, SW (pin A, pin B, button pin)
 SimpleRotary rotary2(5, 6, 7); // radio button
 
-// #define debounceDelay 5 // set the debounce delay in ms  (Default: 2)
-// #define errorDelay 250 // set the error correction delay in ms  (Default: 200)
+#define debounceDelay 2 // set the debounce delay in ms, default 2
+#define errorDelay 200 // set the error correction delay in ms, default 200
+
+  byte rotate1;
+  byte push1;
+
+  byte rotate2;
+  byte push2;
 
 /*******************************
   Digital potentiometers, MCP41010
 *******************************/
 #include <SPI.h> // loads the SPI library
 
-const int csPL = 16; // CS (chip select for MCP41010, digital potentiometer), left channel volume, 16 => A2
-const int csPR = 17; // CS, right channel volume, 17 => A3
+#define csPL 16 // CS (chip select for MCP41010, digital potentiometer), left channel volume, 16 => A2
+#define csPR 17 // CS, right channel volume, 17 => A3
 
 byte volL; // volume on left channel
 byte volR; // volume on right channel
@@ -191,6 +192,8 @@ byte oldBalance = balance;
 /*******************************
   Times
 *******************************/
+unsigned long currentMillis = millis();
+
 unsigned long button1Millis; // when was a button pressed/rotated
 unsigned long button2Millis; // when was a button pressed/rotated
 
@@ -199,4 +202,5 @@ unsigned long button2Millis; // when was a button pressed/rotated
 /*******************************
   Multiplexer
 *******************************/
-const int muxPins[2] = {14, 15}; // analog pins A0 and A1
+#define muxPin0 14 // analog pin 14 => A0
+#define muxPin1 15 // analog pin 15 => A1
