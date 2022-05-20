@@ -62,9 +62,6 @@ RADIO_FREQ preset[] = {
 
 #define FIX_BAND RADIO_BAND_FM
 
-// const boolean radioDebug = false;
-// const int radioDebugInterval = 3000; // how often to print radio debug messages
-
 byte presetNo = 5;
 
 double frequency = preset[presetNo]; // start frequency
@@ -97,8 +94,8 @@ boolean presetActive = false;
 *******************************/
 #include <LiquidCrystal_I2C.h>
 
-const byte lcdColumns = 16;
-const byte lcdRows = 2;
+#define lcdColumns 16
+#define lcdRows 2
 
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
@@ -117,8 +114,8 @@ unsigned long currentMillis = millis();
 SimpleRotary rotary1(2, 3, 4); // multi function button, CLK, DT, SW (pin A, pin B, button pin)
 SimpleRotary rotary2(5, 6, 7); // radio button
 
-// const byte debounceDelay = 5; // Set the debounce delay in ms  (Default: 2)
-// const byte errorDelay = 250; // Set the error correction delay in ms  (Default: 200)
+// #define debounceDelay 5 // set the debounce delay in ms  (Default: 2)
+// #define errorDelay 250 // set the error correction delay in ms  (Default: 200)
 
 /*******************************
   Digital potentiometers, MCP41010

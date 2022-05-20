@@ -2,7 +2,7 @@
 
 #include "configuration.h" // sets all variables
 
-#include "radioTEA5767.h"  // control the FM radio module
+#include "radioTEA5767.h" // control the FM radio module
 //#include "sdCard.h" // control the DFPlayer Mini SD Card module
 #include "lcd.h"     // manages all info on LCD
 #include "buttons.h" // handle button presses
@@ -24,20 +24,20 @@ void setup()
   lcd.setCursor(0, 0); // print name of this program and boot message to the LCD
   lcd.print(programName);
   lcd.setCursor(0, 1);
-  lcd.print("Booting ...");
+  lcd.print("Booting ...     ");
 
   delay(bootDelay); // delay to be able to see message on LCD
 
   /*******************************
     Start serial
   *******************************/
-#ifdef __DEBUG__
+#if DEBUG
   lcd.setCursor(0, 1);
   lcd.print("Starting serial ...");
 
-  delay(bootDelay); // delay to be able to see message on LCD
-
   Serial.begin(serialSpeed);
+
+  delay(bootDelay); // delay to be able to see message on LCD
 #endif
 
   /*******************************
@@ -84,8 +84,6 @@ void setup()
   lcd.setCursor(0, 1);
   lcd.print("Defining pins ...");
 
-  delay(bootDelay); // delay to be able to see message on LCD
-
   debugMessln("Defining pins ...");
   debugMessln();
 
@@ -103,26 +101,26 @@ void setup()
   pinMode(btMute, OUTPUT); // mute output on bluetooth module
   digitalWrite(btMute, HIGH);
 
+  delay(bootDelay); // delay to be able to see message on LCD
+
   /*******************************
     Starting SPI interface
   *******************************/
   lcd.setCursor(0, 1);
   lcd.print("Starting SPI ...");
 
-  delay(bootDelay); // delay to be able to see message on LCD
-
   debugMessln("Starting SPI ...");
   debugMessln();
 
   SPI.begin;
+
+  delay(bootDelay); // delay to be able to see message on LCD
 
   /*******************************
     Build custom characters
   *******************************/
   lcd.setCursor(0, 1);
   lcd.print("Building chars ...");
-
-  delay(bootDelay); // delay to be able to see message on LCD
 
   debugMessln("Building custom characters ...");
   debugMessln();
@@ -141,14 +139,14 @@ void setup()
     lcd.createChar(5, fill5);
   */
 
+  delay(bootDelay); // delay to be able to see message on LCD
+
   /*******************************
     Set up rotary encoders
   *******************************/
   /* all commented out because the default settings are fine
     lcd.setCursor(0, 1);
     lcd.print("Setting up encoders ...");
-
-delay(bootDelay); // delay to be able to see message on LCD
 
     if (debug) {
       debugMessln("Setting up rotary encoders  ...");
@@ -158,6 +156,8 @@ delay(bootDelay); // delay to be able to see message on LCD
     rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
     rotary1.setDebounceDelay(debounceDelay); // Set the debounce delay in ms  (Default: 2)
     rotary1.setErrorDelay(errorDelay); // Set the error correction delay in ms  (Default: 200)
+
+    delay(bootDelay); // delay to be able to see message on LCD
   */
 
   /*******************************
@@ -166,22 +166,22 @@ delay(bootDelay); // delay to be able to see message on LCD
   lcd.setCursor(0, 1);
   lcd.print("Starting receiver ...");
 
-  delay(bootDelay); // delay to be able to see message on LCD
-
   debugMessln("Starting FM radio receiver  ...");
   debugMessln();
 
   radio.init(); // initialize radio
 
-#ifdef __DEBUG__
+#if DEBUG
   radio.debugEnable(); // enable information to the serial port
 #endif
 
   setReceiver(); // tune the radio receiver
 
-#ifdef __DEBUG__
+#if DEBUG
   printRadioDebugInfo();
 #endif
+
+  delay(bootDelay); // delay to be able to see message on LCD
 
   /*******************************
     Start DFPlayer Mini
@@ -189,8 +189,6 @@ delay(bootDelay); // delay to be able to see message on LCD
   /*
     lcd.setCursor(0, 1);
     lcd.print("Starting sw serial ...");
-
-    delay(bootDelay); // delay to be able to see message on LCD
 
     debugMessln("Start software serial  ...");
     debugMessln()
@@ -203,7 +201,7 @@ delay(bootDelay); // delay to be able to see message on LCD
     delay(bootDelay); // delay to be able to see message on LCD
 
     debugMessln("DFRobot DFPlayer Mini");
-      debugMessln("Starting DFPlayer Mini ...");
+    debugMessln("Starting DFPlayer Mini ...");
     debugMessln();
 
     if (!myDFPlayer.begin(mySoftwareSerial)) {
@@ -221,10 +219,12 @@ delay(bootDelay); // delay to be able to see message on LCD
 
     maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
     debugMess("Number of tracks on SD card: ");
-      debugMessln(maxSDSongs);
+    debugMessln(maxSDSongs);
     debugMessln()
 
     menu_opcoes(); // mostra o menu de comandos
+
+    delay(bootDelay); // delay to be able to see message on LCD
   */
 
   /*******************************
@@ -234,6 +234,8 @@ delay(bootDelay); // delay to be able to see message on LCD
   printFunction();
 
   setVolume();
+
+  debugMessln("Setup finished, entering main loop ...");
 }
 
 void loop()
