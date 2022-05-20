@@ -68,9 +68,9 @@ double frequency = preset[presetNo]; // start frequency
 double oldFrequency = frequency;
 
 #define minFrequency 8750
-#define maxFrequency  10800
+#define maxFrequency 10800
 
-#define frequencyStep  10
+#define frequencyStep 10
 
 boolean presetScreen = false;
 boolean presetActive = false;
@@ -110,13 +110,13 @@ SimpleRotary rotary1(2, 3, 4); // multi function button, CLK, DT, SW (pin A, pin
 SimpleRotary rotary2(5, 6, 7); // radio button
 
 #define debounceDelay 2 // set the debounce delay in ms, default 2
-#define errorDelay 200 // set the error correction delay in ms, default 200
+#define errorDelay 200  // set the error correction delay in ms, default 200
 
-  byte rotate1;
-  byte push1;
+byte rotate1;
+byte push1;
 
-  byte rotate2;
-  byte push2;
+byte rotate2;
+byte push2;
 
 /*******************************
   Digital potentiometers, MCP41010
