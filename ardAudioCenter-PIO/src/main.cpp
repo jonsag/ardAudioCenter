@@ -1,6 +1,7 @@
 #include "Arduino.h"
 
 #include "configuration.h" // sets all variables
+
 #include "radioTEA5767.h"  // control the FM radio module
 //#include "sdCard.h" // control the DFPlayer Mini SD Card module
 #include "lcd.h"     // manages all info on LCD
@@ -42,49 +43,40 @@ void setup()
   /*******************************
     Print start information
   *******************************/
-  DEBUG(programName);
-  DEBUG("\n");
-  DEBUG(date);
-  DEBUG("\n");
-  DEBUG("by ");
-  DEBUG("\n");
-  DEBUG(author);
-  DEBUG("\n");
-  DEBUG(email);
-  DEBUG("\n\n");
+  debugMessln(programName);
+  debugMessln(date);
+  debugMessln("by ");
+  debugMessln(author);
+  debugMessln(email);
 
-  DEBUG("Number of sources: ");
-  DEBUG(sizeof(sources) / sizeof(sources[0]));
-  DEBUG("\n\n");
+  debugMess("Number of sources: ");
+  debugMessln(sizeof(sources) / sizeof(sources[0]));
+  debugMessln();
 
-  DEBUG("Source selected: ");
-  DEBUG(sourceNo);
-  DEBUG("\n");
-  DEBUG(sources[sourceNo]);
-  DEBUG("\n\n");
+  debugMess("Source selected: ");
+  debugMessln(sourceNo);
+  debugMessln(sources[sourceNo]);
+  debugMessln();
 
-  DEBUG("Function selected: ");
-  DEBUG(functionNo);
-  DEBUG("\n");
-  DEBUG(functions[functionNo]);
-  DEBUG("\n\n");
+  debugMess("Function selected: ");
+  debugMessln(functionNo);
+  debugMessln(functions[functionNo]);
+  debugMessln();
 
-  DEBUG("Volume: ");
-  DEBUG(volume);
-  DEBUG("%");
-  DEBUG("\n");
-  DEBUG("Balance: ");
-  DEBUG(balance);
-  DEBUG("\n\n");
+  debugMess("Volume: ");
+  debugMess(volume);
+  debugMessln("%");
+  debugMess("Balance: ");
+  debugMessln(balance);
+  debugMessln();
 
-  DEBUG("FM radio frequency: ");
-  DEBUG(frequency);
-  DEBUG("\n");
-  /* commented out beacause TEA5767 doesn't seem to have this option
-    DEBUG("FM radio volume: ");
-    DEBUG(radioVolume);
+  debugMess("FM radio frequency: ");
+  debugMessln(frequency);
+  /* commented out because TEA5767 doesn't seem to have this option
+    debugMess("FM radio volume: ");
+    debugMess(radioVolume);
   */
-  DEBUG("\n\n");
+  debugMessln();
 
   /*******************************
     Define pins
@@ -94,8 +86,8 @@ void setup()
 
   delay(bootDelay); // delay to be able to see message on LCD
 
-  DEBUG("Defining pins ...");
-  DEBUG("\n\n");
+  debugMessln("Defining pins ...");
+  debugMessln();
 
   for (int i = 0; i < 2; i++)
   { // define multiplexer pins
@@ -119,8 +111,8 @@ void setup()
 
   delay(bootDelay); // delay to be able to see message on LCD
 
-  DEBUG("Starting SPI ...");
-  DEBUG("\n\n");
+  debugMessln("Starting SPI ...");
+  debugMessln();
 
   SPI.begin;
 
@@ -132,8 +124,8 @@ void setup()
 
   delay(bootDelay); // delay to be able to see message on LCD
 
-  DEBUG("Building custom characters ...");
-  DEBUG("\n\n");
+  debugMessln("Building custom characters ...");
+  debugMessln();
 
   lcd.createChar(1, bar1);
   lcd.createChar(2, bar2);
@@ -159,8 +151,8 @@ void setup()
 delay(bootDelay); // delay to be able to see message on LCD
 
     if (debug) {
-      Serial.println("Setting up rotary encoders  ...");
-      Serial.println();
+      debugMessln("Setting up rotary encoders  ...");
+      debugMessln();
     }
 
     rotary1.setTrigger(HIGH); // Set the trigger to be either a HIGH or LOW pin (Default: HIGH). Note this sets all three pins to use the same state.
@@ -176,8 +168,8 @@ delay(bootDelay); // delay to be able to see message on LCD
 
   delay(bootDelay); // delay to be able to see message on LCD
 
-  DEBUG("Starting FM radio receiver  ...");
-  DEBUG("\n\n");
+  debugMessln("Starting FM radio receiver  ...");
+  debugMessln();
 
   radio.init(); // initialize radio
 
@@ -200,8 +192,8 @@ delay(bootDelay); // delay to be able to see message on LCD
 
     delay(bootDelay); // delay to be able to see message on LCD
 
-    DEBUG("Start software serial  ...");
-    DEBUG("\n\n")
+    debugMessln("Start software serial  ...");
+    debugMessln()
 
     mySoftwareSerial.begin(9600);
 
@@ -210,31 +202,27 @@ delay(bootDelay); // delay to be able to see message on LCD
 
     delay(bootDelay); // delay to be able to see message on LCD
 
-    DEBUG("DFRobot DFPlayer Mini");
-    DEBUG("\n")
-      DEBUG("Starting DFPlayer Mini ...");
-    DEBUG("\n\n");
+    debugMessln("DFRobot DFPlayer Mini");
+      debugMessln("Starting DFPlayer Mini ...");
+    debugMessln();
 
     if (!myDFPlayer.begin(mySoftwareSerial)) {
-      DEBUG("Could not initialize DFPlayer mini: ");
-      DEBUG("\n");
-      DEBUG("1. Check DFPlayer connections");
-      DEBUG("\n")
-      DEBUG("2. Insert SD card");
-      DEBUG("\n");
+      debugMessln("Could not initialize DFPlayer mini: ");
+      debugMessln("1. Check DFPlayer connections");
+      debugMessln("2. Insert SD card");
       while (true);
     }
-    DEBUG("DFPlayer Mini ready");
-    DEBUG("\n\n")
+    debugMessln("DFPlayer Mini ready");
+    debugMessln()
 
     myDFPlayer.setTimeOut(mySoftwareSerialTimeOut); // timeout serial 500ms
     myDFPlayer.volume(sdVolume); // volume 10, between 0 and 30
     myDFPlayer.EQ(0); // equalizer set to normal
 
     maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
-    DEBUG("Number of tracks on SD card: ");
-      DEBUG(maxSDSongs);
-    DEBUG("\n\n")
+    debugMess("Number of tracks on SD card: ");
+      debugMessln(maxSDSongs);
+    debugMessln()
 
     menu_opcoes(); // mostra o menu de comandos
   */
@@ -305,8 +293,8 @@ void loop()
     {
       radio.setMute(true); // mute the radio
 
-      DEBUG("Radio muted");
-      DEBUG("\n\n");
+      debugMessln("Radio muted");
+      debugMessln();
     }
 
     if (sourceNo == 1)
@@ -317,8 +305,8 @@ void loop()
     {
       digitalWrite(btMute, HIGH);
 
-      DEBUG("Bluetooth muted");
-      DEBUG("\n\n");
+      debugMessln("Bluetooth muted");
+      debugMessln();
     }
 
     if (functionNo == 1)

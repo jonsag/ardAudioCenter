@@ -1,10 +1,10 @@
 void writeVolumes()
 {
-  DEBUG("Volume left: ");
-  DEBUG(volL);
-  DEBUG("\n");
-  DEBUG("Volume right: ");
-  DEBUG("\n");
+  debugMess("Volume left: ");
+  debugMessln(volL);
+  debugMess("Volume right: ");
+  debugMessln(volR);
+  debugMessln();
 
   digitalWrite(csPL, LOW); // set volume for left channel
   SPI.transfer(B00010001); // tell the chip to set the pot
@@ -21,12 +21,12 @@ void setVolume()
 {
   volumeVal = 255 * volume / 100;
 
-  DEBUG("Volume value: ");
-  DEBUG(volumeVal);
-  DEBUG("\n");
+  debugMess("Volume value: ");
+  debugMessln(volumeVal);
+  debugMessln();
 
-  if (balance < 10)
-  { // shift sound center to the left
+  if (balance < 10) // shift sound center to the left
+  {
     volR = volumeVal * balance / 10;
   }
   else
@@ -34,8 +34,8 @@ void setVolume()
     volR = volumeVal;
   }
 
-  if (balance > 10)
-  { // shift sound center to the right
+  if (balance > 10) // shift sound center to the right
+  {
     volL = volumeVal * (20 - balance) / 10;
   }
   else

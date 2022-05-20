@@ -1,26 +1,26 @@
 String programName = "ardAudioCenter";
-String date = "20220323";
+String date = "20220520";
 String author = "Jon Sagebrand";
 String email = "jonsagebrand@gmail.com";
 
 /*******************************
   Serial
 *******************************/
-const int serialSpeed = 9600;
+#define serialSpeed 9600
 
-const int bootDelay = 100; // delay after each boot message
+#define bootDelay 100 // delay after each boot message
 
 /*******************************
   Debugging
 *******************************/
-#define __DEBUG__ // uncomment to turn on debugging messages
+#define DEBUG 0 // set to 0 to turn off debugging messages
 
-#ifdef __DEBUG__
-#define DEBUG(...) Serial.print(__VA_ARGS__)
-#define DEBUGLN(...) Serial.println(__VA_ARGS__)
+#if DEBUG
+#define debugMess(x) Serial.print(x)
+#define debugMessln(x) Serial.println(x)
 #else
-#define DEBUG(...)
-#define DEBUGLN(...)
+#define debugMess(x)
+#define debugMessln(x)
 #endif
 
 /*******************************
@@ -30,16 +30,20 @@ const int bootDelay = 100; // delay after each boot message
 
 // arduino: SDA -> A4, SCL -> A5
 // nodemcu: SDA -> D2, SCL -> D1
-#define SDApin A4
-#define SCLpin A5
+//#define SDApin A4
+//#define SCLpin A5
 
 /*******************************
   FM radio module, TEA5767
 *******************************/
+#define useRDS 0
+
 #include <radio.h>
 #include <TEA5767.h>
 
+#if useRDS
 #include <RDSParser.h>
+#endif
 
 #define radioBand RADIO_BAND_FM // the band that will be tuned is FM
 
@@ -66,15 +70,15 @@ byte presetNo = 5;
 double frequency = preset[presetNo]; // start frequency
 double oldFrequency = frequency;
 
-const double minFrequency = 8750;
-const double maxFrequency = 10800;
+#define minFrequency 8750
+#define maxFrequency  10800
 
-const byte frequencyStep = 10;
+#define frequencyStep  10
 
 boolean presetScreen = false;
 boolean presetActive = false;
 
-// const byte radioVolume = 15; // volume output from the module, commented out beacause TEA5767 doesn't seem to have this option
+// const byte radioVolume = 15; // volume output from the module, commented out because TEA5767 doesn't seem to have this option
 
 // int search_mode = 0;
 // int search_direction;
@@ -130,7 +134,7 @@ byte volR; // volume on right channel
 /*******************************
   Bluetooth module, JDY-62
 *******************************/
-const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
+#define btMute 8 // pin connected to mute input on JDY-62, muted when HIGH
 
 /*******************************
   SD card module, DFPlayer Mini
@@ -139,7 +143,7 @@ const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
   #include <SoftwareSerial.h> // this library adds RX and TX to other pins than 0 and 1
   #include <DFRobotDFPlayerMini.h>
 
-  SoftwareSerial mySoftwareSerial(10, 9); // RX, TX, on the DFPlayer 10 connnects to TX and 9 to RX
+  SoftwareSerial mySoftwareSerial(10, 9); // RX, TX, on the DFPlayer 10 connects to TX and 9 to RX
 
   DFRobotDFPlayerMini myDFPlayer; // define player
 
@@ -158,8 +162,9 @@ const byte btMute = 8; // pin connected to mute input on JDY-62, muted when HIGH
   Sources
 *******************************/
 byte sourceNo = 0;
-const String sources[] = {"FM Radio", "Bluetooth", "Line In"};
-const String sourcesShort[] = {"FM", "Bt", "Li"};
+
+const String sources[] = {"FM Radio", "Bluetooth", "Line In", "SD-Card"};
+const String sourcesShort[] = {"FM", "Bt", "Li", "SD"};
 
 byte oldSourceNo = sourceNo;
 byte selectSourceNo;
@@ -175,7 +180,11 @@ byte oldFunctionNo = functionNo;
 /*******************************
   Sound settings
 *******************************/
-byte volume = 25;
+#define volumeStep 5
+#define balanceStep 1
+
+byte volume = 25; // start volume
+
 byte oldVolume = volume;
 byte volumeVal;
 
@@ -188,7 +197,7 @@ byte oldBalance = balance;
 unsigned long button1Millis; // when was a button pressed/rotated
 unsigned long button2Millis; // when was a button pressed/rotated
 
-const int screenWait = 2000; // how long to wait before returning to home screen
+#define screenWait 2000 // how long to wait before returning to home screen
 
 /*******************************
   Multiplexer

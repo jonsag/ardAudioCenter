@@ -15,37 +15,36 @@ void button1Action()
     selectSourceNo = sourceNo;
   }
 
-  DEBUG("Function no: ");
-  DEBUG(functionNo);
-  DEBUG("\n");
-  DEBUG(functions[functionNo]);
-  DEBUG("\n\n");
+  debugMess("Function no: ");
+  debugMessln(functionNo);
+  debugMessln(functions[functionNo]);
+  debugMessln();
 }
 
 void increaseVolume()
 {
-  volume += 5;
+  volume += volumeStep;
   if (volume > 100)
   {
     volume = 100;
   }
 
-  DEBUG("Volume: ");
-  DEBUG(volume);
-  DEBUG("\n\n");
+  debugMess("Volume: ");
+  debugMessln(volume);
+  debugMessln();
 }
 
 void decreaseVolume()
 {
-  volume -= 5;
+  volume -= volumeStep;
   if (volume < 0 || volume > 100)
   {
     volume = 0;
   }
 
-  DEBUG("Volume: ");
-  DEBUG(volume);
-  DEBUG("\n\n");
+  debugMess("Volume: ");
+  debugMessln(volume);
+  debugMessln();
 }
 
 void sourceUp()
@@ -59,11 +58,10 @@ void sourceUp()
 
   printSourceSelect();
 
-  DEBUG("Select source no: ");
-  DEBUG(selectSourceNo);
-  DEBUG("\n");
-  DEBUG(sources[selectSourceNo]);
-  DEBUG("\n\n");
+  debugMess("Select source no: ");
+  debugMessln(selectSourceNo);
+  debugMessln(sources[selectSourceNo]);
+  debugMessln();
 }
 
 void sourceDown()
@@ -77,16 +75,15 @@ void sourceDown()
 
   printSourceSelect();
 
-  DEBUG("Select source no: ");
-  DEBUG(selectSourceNo);
-  DEBUG("\n");
-  DEBUG(sources[selectSourceNo]);
-  DEBUG("\n\n");
+  debugMess("Select source no: ");
+  debugMessln(selectSourceNo);
+  debugMess(sources[selectSourceNo]);
+  debugMessln();
 }
 
 void balanceRight()
 {
-  balance += 1;
+  balance += balanceStep;
 
   if (balance > 20)
   {
@@ -95,14 +92,14 @@ void balanceRight()
 
   printBalance();
 
-  DEBUG("Balance: ");
-  DEBUG(balance);
-  DEBUG("\n\n");
+  debugMess("Balance: ");
+  debugMessln(balance);
+  debugMessln();
 }
 
 void balanceLeft()
 {
-  balance -= 1;
+  balance -= balanceStep;
 
   if (balance < 0 || balance > 20)
   {
@@ -111,9 +108,9 @@ void balanceLeft()
 
   printBalance();
 
-  DEBUG("Balance: ");
-  DEBUG(balance);
-  DEBUG("\n\n");
+  debugMess("Balance: ");
+  debugMessln(balance);
+  debugMessln();
 }
 
 /*******************************
@@ -128,9 +125,9 @@ void increaseFreq()
     frequency = maxFrequency;
   }
 
-  DEBUG("Frequency: ");
-  DEBUG(frequency);
-  DEBUG("\n\n");
+  debugMess("Frequency: ");
+  debugMessln(frequency);
+  debugMessln();
 
   printFM();
 }
@@ -144,9 +141,9 @@ void decreaseFreq()
     frequency = minFrequency;
   }
 
-  DEBUG("Frequency: ");
-  DEBUG(frequency);
-  DEBUG("\n\n");
+  debugMess("Frequency: ");
+  debugMessln(frequency);
+  debugMessln();
 
   printFM();
 }
@@ -161,6 +158,7 @@ void button2Action()
 void presetUp()
 {
   presetNo++;
+
   if (presetNo > sizeof(preset) / sizeof(preset[0]) - 1)
   {
     presetNo = 0;
@@ -168,11 +166,11 @@ void presetUp()
 
   frequency = preset[presetNo];
 
-  DEBUG("Preset: ");
-  DEBUG(presetNo);
-  DEBUG(": ");
-  DEBUG(frequency);
-  DEBUG("\n\n");
+  debugMess("Preset: ");
+  debugMess(presetNo);
+  debugMess(": ");
+  debugMessln(frequency);
+  debugMessln();
 
   printFMPreset();
 }
@@ -180,6 +178,7 @@ void presetUp()
 void presetDown()
 {
   presetNo--;
+  
   if (presetNo < 0 || presetNo > sizeof(preset) / sizeof(preset[0]) - 1)
   {
     presetNo = sizeof(preset) / sizeof(preset[0]) - 1;
@@ -187,11 +186,11 @@ void presetDown()
 
   frequency = preset[presetNo];
 
-  DEBUG("Preset: ");
-  DEBUG(presetNo);
-  DEBUG(": ");
-  DEBUG(frequency);
-  DEBUG("\n\n");
+  debugMess("Preset: ");
+  debugMess(presetNo);
+  debugMess(": ");
+  debugMessln(frequency);
+  debugMessln();
 
   printFMPreset();
 }

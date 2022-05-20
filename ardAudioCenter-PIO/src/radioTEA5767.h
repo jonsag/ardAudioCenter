@@ -1,10 +1,11 @@
 
 TEA5767 radio; // create an instance of class for Si4703 chip, pinout SDA and SCL, arduino uno pins A4 and A5
 
+#if useRDS
 RDSParser rds; /// get a RDS parser
+#endif
 
-/// State definition for this radio implementation.
-enum RADIO_STATE
+enum RADIO_STATE // state definition for this radio implementation
 {
   STATE_PARSECOMMAND, ///< waiting for a new command character.
 
@@ -12,48 +13,49 @@ enum RADIO_STATE
   STATE_EXEC      ///< executing the command.
 };
 
-RADIO_STATE state; ///< The state variable is used for parsing input characters.
+RADIO_STATE state; // the state variable is used for parsing input characters
 
-/// Update the ServiceName text on the LCD display.
-void DisplayServiceName(char *name)
+#if useRDS
+void DisplayServiceName(char *name) /// update the service name text on the LCD display
 {
-  Serial.print("RDS:");
-  Serial.println(name);
-} // DisplayServiceName()
+  debugMess("RDS:");
+  debugMessln(name);
+}
 
 void RDS_process(uint16_t block1, uint16_t block2, uint16_t block3, uint16_t block4)
 {
   rds.processData(block1, block2, block3, block4);
 }
+#endif
 
 void printRadioDebugInfo()
 {
+#if DEBUG
   char s[12];
   radio.formatFrequency(s, sizeof(s));
 
-  Serial.print("Station:");
-  Serial.println(s);
+  debugMess("Station:");
+  debugMessln(s);
 
-  Serial.print("Radio:");
+  debugMess("Radio:");
   radio.debugRadioInfo();
 
-  Serial.print("Audio:");
+  debugMess("Audio:");
   radio.debugAudioInfo();
 
-  Serial.println();
+  debugMessln();
+#endif
 }
 
 void setReceiver()
 {
   radio.setBandFrequency(radioBand, frequency + 1); // set band and station
-  // radio.setFrequency(frequency); // on power on go to preset frequency
+  // radio.setFrequency(frequency); // on power on, go to preset frequency
 
-  // radio.setVolume(radioVolume); // commented out beacause TEA5767 doesn't seem to have this option
+  // radio.setVolume(radioVolume); // commented out because TEA5767 doesn't seem to have this option
   radio.setMono(false);
 
-#ifdef __DEBUG__
   printRadioDebugInfo();
-#endif
 }
 
 ////////// anything below this line is directly from the web page mentioned up top, and is not used in this sketch
@@ -77,13 +79,15 @@ void setReceiver()
   .void DisplayFrequency(RADIO_FREQ f) { /// Update the Frequency on the LCD display
   char s[12];
   radio.formatFrequency(s, sizeof(s));
-  Serial.print("FREQ:"); Serial.println(s);
+  debugMess("FREQ:");
+  debugMessln(s);
   lcd.setCursor(0, 0);
   lcd.print(s);
   }
 
   void DisplayServiceName(char *name) { /// Update the ServiceName text on the LCD display when in RDS mode.
-  Serial.print("RDS:"); Serial.println(name);
+  debugMess("RDS:");
+  debugMessln(name);
   if (rot_state == STATE_FREQ) {
     lcd.setCursor(0, 1);
     lcd.print(name);
@@ -91,31 +95,35 @@ void setReceiver()
   }
 
   void DisplayTime(uint8_t hour, uint8_t minute) {  // Display time
-  Serial.print("RDS-Time:");
-  if (hour < 10) Serial.print('0');
-  Serial.print(hour);
-  Serial.print(':');
-  if (minute < 10) Serial.print('0');
-  Serial.print(minute);
+  debugMess("RDS-Time:");
+  if (hour < 10) debugMess('0');
+  debugMess(hour);
+  debugMess(':');
+  if (minute < 10) debugMess('0');
+  debugMess(minute);
   }
 
   void DisplayVolume(uint8_t v) { /// Display the current volume.
-  Serial.print("VOL: "); Serial.println(v);
+  debugMess("VOL: "); debugMessln(v);
 
   lcd.setCursor(0, 1);
   lcd.print("VOL: "); lcd.print(v);
   } // DisplayVolume()
 
   void DisplayMono(uint8_t v) { /// Display the current mono switch.
-  Serial.print("MONO: "); Serial.println(v);
+  debugMess("MONO: ");
+  debugMessln(v);
   lcd.setCursor(0, 1);
-  lcd.print("MONO: "); lcd.print(v);
+  lcd.print("MONO: ");
+  lcd.print(v);
   } // DisplayMono()
 
   void DisplaySoftMute(uint8_t v) { /// Display the current soft mute switch.
-  Serial.print("SMUTE: "); Serial.println(v);
+  debugMess("SMUTE: ");
+  debugMessln(v);
   lcd.setCursor(0, 1);
-  lcd.print("SMUTE: "); lcd.print(v);
+  lcd.print("SMUTE: ");
+  lcd.print(v);
   } // DisplaySoftMute()
 
   void RDS_process(uint16_t block1, uint16_t block2, uint16_t block3, uint16_t block4) {

@@ -11,54 +11,56 @@ void readButtons()
   /*******************************
     Rotary encoder 1
   *******************************/
-  if (rotate1 != 0 || push1 != 0)
-  { // button was manipulated
+  if (rotate1 != 0 || push1 != 0) // button was manipulated
+  {
     button1Millis = millis();
 
-    DEBUG("Rotary encoder 1: ");
+    debugMess("Rotary encoder 1: ");
 
-    if (rotate1 == 1)
-    { // clockwise rotation
-      DEBUG("CW");
-      DEBUG("\n");
+    switch (rotate1) // left knob
+    {
+    case 1: // clockwise rotation
+      debugMessln("CW");
 
-      if (functionNo == 0)
-      { // volume up
+      switch (functionNo)
+      {
+      case 0: // volume up
         increaseVolume();
-      }
-      else if (functionNo == 1)
-      { // source up
+        break;
+
+      case 1: // source up
         sourceUp();
-      }
-      else if (functionNo == 2)
-      { // balance right
+        break;
+
+      default: // case 2: // balance right
         balanceRight();
+        break;
       }
-    }
-    else if (rotate1 == 2)
-    { // counter clockwise rotation
-      DEBUG("CCW");
-      DEBUG("\n");
 
-      if (functionNo == 0)
-      { // volume down
+      break;
+
+    default: // case 2: // counter clockwise rotation
+      debugMessln("CCW");
+
+      switch (functionNo)
+      {
+      case 0: // volume down
         decreaseVolume();
-      }
-      else if (functionNo == 1)
-      { // source down
+        break;
+      case 1: // source down
         sourceDown();
-      }
-      else if (functionNo == 2)
-      { // balance left
+        break;
+      default: // case 2: // balance left
         balanceLeft();
+        break;
       }
+
+      break;
     }
 
-    if (push1)
-    { // button pressed
-
-      DEBUG("Button pressed");
-      DEBUG("\n");
+    if (push1) // left button pressed
+    {
+      debugMessln("Button pressed");
 
       button1Action();
     }
@@ -67,20 +69,20 @@ void readButtons()
   /*******************************
     Rotary encoder 2
   *******************************/
-  if (rotate2 != 0 || push2 != 0)
-  { // button was manipulated
+  if (rotate2 != 0 || push2 != 0) // button was manipulated
+  {
     button2Millis = millis();
 
-    DEBUG("Rotary encoder 2: ");
+    debugMess("Rotary encoder 2: ");
 
-    if (rotate2 == 1)
-    { // clockwise rotation
-      DEBUG("CW");
-      DEBUG("\n");
+    switch (rotate2) // right knob
+    {
+    case 1: // clockwise rotation
+      debugMessln("CW");
 
       if (sourceNo == 0)
       {
-        if (!presetScreen)
+        if (!presetScreen) // frequency up
         {
           increaseFreq();
         }
@@ -89,15 +91,15 @@ void readButtons()
           presetUp();
         }
       }
-    }
-    else if (rotate2 == 2)
-    { // counter clockwise rotation
-      DEBUG("CCW");
-      DEBUG("\n");
+
+      break;
+
+    default: // case 2: // counter clockwise rotation
+      debugMessln("CCW");
 
       if (sourceNo == 0)
       {
-        if (!presetScreen)
+        if (!presetScreen) // frequency down
         {
           decreaseFreq();
         }
@@ -106,14 +108,15 @@ void readButtons()
           presetDown();
         }
       }
+
+      break;
     }
   }
 
-  if (push2)
-  { // button pressed
+  if (push2) // right button pressed
+  {
 
-    DEBUG("Button pressed");
-    DEBUG("\n");
+    debugMessln("Button pressed");
 
     button2Action();
   }
@@ -122,7 +125,7 @@ void readButtons()
 /*
   byte i = rotary.pushLong(1000); // Check to see if button is pressed for 1 second.
   if ( i == 1 ) {
-    Serial.println("1 Sec Long Pushed");
+    debugMessln("1 Sec Long Pushed");
   }
 */
 
@@ -135,17 +138,17 @@ void readButtons()
 
 /*
   i = rotary.pushTime(); // How to get amount of time the button was pressed.
-  Serial.println(i);
+  debugMessln(i);
 */
 
 /*
   i = rotary.pushType(1000); // Number of milliseconds button has to be pushed for it to be considered a long push. 0 = not pushed, 1 = pushed, 2 = long pushed
 
   if ( i == 1 ) {
-    Serial.println("Pushed");
+    debugMessln("Pushed");
   }
 
   if ( i == 2 ) {
-    Serial.println("Long Pushed");
+    debugMessln("Long Pushed");
   }
 */

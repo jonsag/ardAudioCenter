@@ -5,16 +5,16 @@
 
 void menu_opcoes()
 {
-  Serial.println();
-  Serial.println("Comandos:");
-  Serial.print(" [1-");
-  Serial.print(maxSDSongs);
-  Serial.println("] Para selecionar o arquivo MP3");
-  Serial.println(" [s] parar reproducao");
-  Serial.println(" [p] pausa/continua a musica");
-  Serial.println(" [e] seleciona equalizacao");
-  Serial.println(" [+ or -] aumenta ou diminui o volume");
-  Serial.println();
+  debugMessln();
+  debugMessln("Comandos:");
+  debugMess(" [1-");
+  debugMess(maxSDSongs);
+  debugMessln("] Para selecionar o arquivo MP3");
+  debugMessln(" [s] parar reproducao");
+  debugMessln(" [p] pausa/continua a musica");
+  debugMessln(" [e] seleciona equalizacao");
+  debugMessln(" [+ or -] aumenta ou diminui o volume");
+  debugMessln();
 }
 
 void playSDCard()
@@ -27,8 +27,8 @@ void playSDCard()
     // Reproducao (índice da música)
     if ((sdBuf.toInt() >= 1) && (sdBuf.toInt() <= maxSDSongs))
     {
-      Serial.print("Reproduzindo musica: ");
-      Serial.println(sdBuf.toInt());
+      debugMess("Reproduzindo musica: ");
+      debugMessln(sdBuf.toInt());
       myDFPlayer.play(sdBuf.toInt()); // dá play na música
       menu_opcoes();
     }
@@ -37,12 +37,12 @@ void playSDCard()
     {
       if (sdPause)
       {
-        Serial.println("Continua musica...");
+        debugMessln("Continua musica...");
         myDFPlayer.start();
       }
       else
       {
-        Serial.println("Musica pausada...");
+        debugMessln("Musica pausada...");
         myDFPlayer.pause();
       }
       sdPause = !sdPause;
@@ -54,7 +54,7 @@ void playSDCard()
     if (sdBuf == "s")
     {
       myDFPlayer.stop();
-      Serial.println("Musica parada!");
+      debugMessln("Musica parada!");
       menu_opcoes();
     }
 
@@ -67,9 +67,9 @@ void playSDCard()
         sdEqualizer = 0;
       }
       myDFPlayer.EQ(sdEqualizer);
-      Serial.print("Equalizacao: ");
-      Serial.print(sdEqualizer);
-      Serial.println(" (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)");
+      debugMess("Equalizacao: ");
+      debugMess(sdEqualizer);
+      debugMessln(" (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)");
       menu_opcoes();
     }
 
@@ -77,16 +77,16 @@ void playSDCard()
     if (sdBuf == "+")
     {
       myDFPlayer.volumeUp();
-      Serial.print("Volume atual:");
-      Serial.println(myDFPlayer.readVolume());
+      debugMess("Volume atual:");
+      debugMessln(myDFPlayer.readVolume());
       menu_opcoes();
     }
     // Diminui volume
     if (sdBuf == "-")
     {
       myDFPlayer.volumeDown();
-      Serial.print("Volume atual:");
-      Serial.println(myDFPlayer.readVolume());
+      debugMess("Volume atual:");
+      debugMessln(myDFPlayer.readVolume());
       menu_opcoes();
     }
   } // while
