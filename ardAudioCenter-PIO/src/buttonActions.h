@@ -5,6 +5,7 @@
 void button1Action()
 {
   functionNo++;
+
   if (functionNo > sizeof(functions) / sizeof(functions[0]) - 1)
   {
     functionNo = 0;
@@ -13,6 +14,7 @@ void button1Action()
   if (functionNo == 1)
   {
     selectSourceNo = sourceNo;
+    printSourceSelect();
   }
 
   debugMess("Function no: ");

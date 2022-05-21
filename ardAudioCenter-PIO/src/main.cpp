@@ -244,51 +244,51 @@ void loop()
 
   readButtons();
 
-  if (millis() - button1Millis >= screenWait)
-  { // return to home screen after wait time
+  if (millis() - button1Millis >= screenWait) // return to home screen after wait time
+  {
     functionNo = 0;
     sourceNo = selectSourceNo; // source might have been changed
   }
 
-  if (millis() - button2Millis >= screenWait && sourceNo == 0 && presetScreen)
-  { // return to home screen after wait time
+  if (millis() - button2Millis >= screenWait && sourceNo == 0 && presetScreen) // return to home screen after wait time
+  {
     presetScreen = false;
     printFM();
   }
 
-  if (sourceNo == 0 && frequency != oldFrequency)
-  { // tune in to new radio frequency
+  if (sourceNo == 0 && frequency != oldFrequency) // tune in to new radio frequency
+  {
     setReceiver();
     oldFrequency = frequency;
   }
 
-  if (functionNo != oldFunctionNo)
-  { // new function for second row on LCD has been selected
+  if (functionNo != oldFunctionNo) // new function for second row on LCD has been selected
+  {
     printFunction();
     oldFunctionNo = functionNo;
   }
 
-  if (volume != oldVolume)
-  { // volume has been changed
+  if (volume != oldVolume) // volume has been changed
+  {
     printVolume();
     setVolume();
     oldVolume = volume;
   }
 
-  if (balance != oldBalance)
-  { // balance has been changed
+  if (balance != oldBalance) // balance has been changed
+  {
     printBalance();
     setVolume();
     oldBalance = balance;
   }
 
-  if (sourceNo != oldSourceNo)
-  { // new source has been selected
+  if (sourceNo != oldSourceNo) // new source has been selected
+  {
     printSource();
     setMux(); // select source via multiplexer
 
-    if (sourceNo == 0)
-    {                       // FM radio is selected
+    if (sourceNo == 0) // FM radio is selected
+    {
       radio.setMute(false); // unmute the radio
       setReceiver();        // set frequency on receiver
     }
@@ -300,8 +300,8 @@ void loop()
       debugMessln();
     }
 
-    if (sourceNo == 1)
-    { // unmute bluetooth if selected
+    if (sourceNo == 1) // unmute bluetooth if selected
+    {
       digitalWrite(btMute, LOW);
     }
     else
