@@ -111,7 +111,7 @@ void setup()
   debugMessln("Starting SPI ...");
   debugMessln();
 
-  SPI.begin;
+  SPI.begin();
 
   delay(bootDelay); // delay to be able to see message on LCD
 
