@@ -105,7 +105,6 @@ void setup()
   /*******************************
     Starting SPI interface
   *******************************/
-  /* seems there's no need for this
   lcd.setCursor(0, 1);
   lcd.print("Starting SPI ...");
 
@@ -115,7 +114,6 @@ void setup()
   SPI.begin;
 
   delay(bootDelay); // delay to be able to see message on LCD
-  */
 
   /*******************************
     Build custom characters
