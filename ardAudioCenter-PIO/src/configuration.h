@@ -137,7 +137,6 @@ byte volR; // volume on right channel
 /*******************************
   SD card module, DFPlayer Mini
 *******************************/
-/*
   #include <SoftwareSerial.h> // this library adds RX and TX to other pins than 0 and 1
   #include <DFRobotDFPlayerMini.h>
 
@@ -154,7 +153,6 @@ byte volR; // volume on right channel
   byte mySoftwareSerialTimeOut = 500;
 
   const byte sdVolume = 10;
-*/
 
 /*******************************
   Sources

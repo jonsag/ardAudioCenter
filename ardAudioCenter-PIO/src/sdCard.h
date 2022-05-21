@@ -3,63 +3,59 @@
 
 // Code on this page originates from https://www.instructables.com/id/MP3-Player-With-Arduino/
 
-void menu_opcoes()
+void options_menu()
 {
   debugMessln();
-  debugMessln("Comandos:");
+  debugMessln("Commands: ");
   debugMess(" [1-");
   debugMess(maxSDSongs);
-  debugMessln("] Para selecionar o arquivo MP3");
-  debugMessln(" [s] parar reproducao");
-  debugMessln(" [p] pausa/continua a musica");
-  debugMessln(" [e] seleciona equalizacao");
-  debugMessln(" [+ or -] aumenta ou diminui o volume");
+  debugMessln("] Select the MP3 file");
+  debugMessln(" [s] stop playback");
+  debugMessln(" [p] pause/continue music");
+  debugMessln(" [e] select equalization");
+  debugMessln(" [+ or -] increase or decrease the volume");
   debugMessln();
 }
 
 void playSDCard()
 {
-  // Aguarda a entrada de dados pela serial
-  while (Serial.available() > 0)
+  while (Serial.available() > 0) // waits for serial data input
   {
-    // recupera os dados de entrada
-    sdBuf = Serial.readStringUntil('\n');
-    // Reproducao (índice da música)
-    if ((sdBuf.toInt() >= 1) && (sdBuf.toInt() <= maxSDSongs))
+    sdBuf = Serial.readStringUntil('\n'); // retrieve input data
+
+    if ((sdBuf.toInt() >= 1) && (sdBuf.toInt() <= maxSDSongs)) // playback (song index)
     {
-      debugMess("Reproduzindo musica: ");
+      debugMess("Playing music: ");
       debugMessln(sdBuf.toInt());
-      myDFPlayer.play(sdBuf.toInt()); // dá play na música
+      myDFPlayer.play(sdBuf.toInt()); // play the music
       menu_opcoes();
     }
-    // Pausa/Continua a musica
-    if (sdBuf == "p")
+
+    if (sdBuf == "p") // pause/continue music
     {
       if (sdPause)
       {
-        debugMessln("Continua musica...");
+        debugMessln("Continue music ...");
         myDFPlayer.start();
       }
       else
       {
-        debugMessln("Musica pausada...");
+        debugMessln("Music paused ...");
         myDFPlayer.pause();
       }
       sdPause = !sdPause;
 
-      menu_opcoes();
+      options_menu();
     }
 
-    // Parada
-    if (sdBuf == "s")
+    if (sdBuf == "s") // stop
     {
       myDFPlayer.stop();
-      debugMessln("Musica parada!");
-      menu_opcoes();
+      debugMessln("Music stopped!");
+      options_menu()();
     }
 
-    // Seleciona equalizacao
-    if (sdBuf == "e")
+    if (sdBuf == "e") // select equalization
     {
       sdEqualizer++;
       if (sdEqualizer == 6)
@@ -67,27 +63,27 @@ void playSDCard()
         sdEqualizer = 0;
       }
       myDFPlayer.EQ(sdEqualizer);
-      debugMess("Equalizacao: ");
+      debugMess("Equalization: ");
       debugMess(sdEqualizer);
       debugMessln(" (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)");
-      menu_opcoes();
+      options_menu();
     }
 
-    // Aumenta volume
     if (sdBuf == "+")
-    {
-      myDFPlayer.volumeUp();
-      debugMess("Volume atual:");
-      debugMessln(myDFPlayer.readVolume());
-      menu_opcoes();
-    }
-    // Diminui volume
-    if (sdBuf == "-")
+      / increase volume
+      {
+        myDFPlayer.volumeUp();
+        debugMess("Current volume: ");
+        debugMessln(myDFPlayer.readVolume());
+        options_menu();
+      }
+
+    if (sdBuf == "-") // decrease volume
     {
       myDFPlayer.volumeDown();
-      debugMess("Volume atual:");
+      debugMess("Current volume: ");
       debugMessln(myDFPlayer.readVolume());
-      menu_opcoes();
+      options_menu();
     }
   } // while
 } // loop
