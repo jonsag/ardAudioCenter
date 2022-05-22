@@ -3,9 +3,9 @@
 
 #include "configuration.h" // sets all variables
 
+#include "lcd.h"          // manages all info on LCD
 #include "radioTEA5767.h" // control the FM radio module
 #include "sdCard.h"       // control the DFPlayer Mini SD Card module
-#include "lcd.h"          // manages all info on LCD
 #include "buttons.h"      // handle button presses
 #include "sources.h"      // sets source
 #include "volume.h"       // sets volume
@@ -212,6 +212,7 @@ void setup()
 void loop()
 {
 
+  // ******************** handle buttons *******************
   readButtons();
 
   if (millis() - button1Millis >= screenWait) // return to home screen after wait time
@@ -226,18 +227,28 @@ void loop()
     printFM();
   }
 
+  // ******************* act on changes *******************
+  /**********
+   * radio frequency has changed
+   **********/
   if (sourceNo == 0 && frequency != oldFrequency) // tune in to new radio frequency
   {
     setReceiver();
     oldFrequency = frequency;
   }
 
+  /**********
+   * function (Vol, Src, Bal) has changed
+   **********/
   if (functionNo != oldFunctionNo) // new function for second row on LCD has been selected
   {
     printFunction();
     oldFunctionNo = functionNo;
   }
 
+  /**********
+   * volume has changed
+   **********/
   if (volume != oldVolume) // volume has been changed
   {
     printVolume();
@@ -245,6 +256,9 @@ void loop()
     oldVolume = volume;
   }
 
+  /**********
+   * balance has changed
+   **********/
   if (balance != oldBalance) // balance has been changed
   {
     printBalance();
@@ -252,6 +266,19 @@ void loop()
     oldBalance = balance;
   }
 
+  /**********
+   * DFPlayer track number has changed
+   **********/
+  if (sourceNo == 3 && trackNo != oldTrackNo) // balance has been changed
+  {
+    printTrackNo();
+    playTrackNo();
+    oldTrackNo = trackNo;
+  }
+
+  /**********
+   * source has changed
+   **********/
   if (sourceNo != oldSourceNo) // new source has been selected
   {
     printSource();
@@ -270,15 +297,27 @@ void loop()
       debugMessln();
     }
 
-    if (sourceNo == 1) // unmute bluetooth if selected
+    if (sourceNo == 1) // bluetooth selected
     {
-      digitalWrite(btMute, LOW);
+      digitalWrite(btMute, LOW); // unmute bluetooth
     }
     else
     {
-      digitalWrite(btMute, HIGH);
+      digitalWrite(btMute, HIGH); // mute bluetooth
 
       debugMessln("Bluetooth muted");
+      debugMessln();
+    }
+
+    if (sourceNo == 3) // DFPlayer selected
+    {
+      startDFPlayer(); // initiate DFPlayer
+    }
+    else
+    {
+      myDFPlayer.pause(); // pause the mp3
+
+      debugMessln("DFPlayer paused");
       debugMessln();
     }
 

@@ -150,11 +150,38 @@ void decreaseFreq()
   printFM();
 }
 
+void increaseTrack()
+{
+  trackNo++;
+  if (trackNo > myDFPlayer.readFileCounts())
+  {
+    trackNo = myDFPlayer.readFileCounts();
+  }
+}
+
+void decreaseTrack()
+{
+  trackNo--;
+  if (trackNo < 0)
+  {
+    trackNo = 0;
+  }
+}
+
 void button2Action()
 {
-  presetScreen = true;
-
-  printFMPreset();
+  switch (sourceNo)
+  {
+  case 0:
+    presetScreen = true;
+    printFMPreset();
+    break;
+  case 3:
+    pause_playDFPlayer();
+    break;
+  default:
+    break;
+  }
 }
 
 void presetUp()
@@ -180,7 +207,7 @@ void presetUp()
 void presetDown()
 {
   presetNo--;
-  
+
   if (presetNo < 0 || presetNo > sizeof(preset) / sizeof(preset[0]) - 1)
   {
     presetNo = sizeof(preset) / sizeof(preset[0]) - 1;

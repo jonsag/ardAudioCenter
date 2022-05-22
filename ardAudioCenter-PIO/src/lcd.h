@@ -40,6 +40,56 @@ void printFMPreset()
 }
 
 /*******************************
+  Prints track number on first line
+*******************************/
+void printTrackNo()
+{
+  if (trackNo < 10)
+  {
+    lcd.setCursor(5, 0);
+  }
+  else if (trackNo < 100)
+  {
+    lcd.setCursor(4, 0);
+  }
+  else
+  {
+    lcd.setCursor(3, 0);
+  }
+  lcd.print(trackNo);
+
+  lcd.setCursor(6, 0);
+  lcd.print("/");
+
+  if (myDFPlayer.readFileCounts() < 10)
+  {
+    lcd.setCursor(9, 0);
+  }
+  else if (myDFPlayer.readFileCounts() < 100)
+  {
+    lcd.setCursor(8, 0);
+  }
+  else
+  {
+    lcd.setCursor(7, 0);
+  }
+  lcd.print(myDFPlayer.readFileCounts());
+}
+
+void printPlayPause()
+{
+  lcd.setCursor(11, 0);
+  if (DFPlayerPause)
+  {
+    lcd.print("Paused");
+  }
+  else
+  {
+    lcd.print("Playing");
+  }
+}
+
+/*******************************
   Prints selected source on top line
 *******************************/
 void printSource()

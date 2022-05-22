@@ -80,8 +80,9 @@ void readButtons()
     case 1: // clockwise rotation
       debugMessln("CW");
 
-      if (sourceNo == 0)
+      switch (sourceNo)
       {
+      case 0:              // FM radio
         if (!presetScreen) // frequency up
         {
           increaseFreq();
@@ -90,6 +91,12 @@ void readButtons()
         {
           presetUp();
         }
+        break;
+      case 3: // DFPlayer
+        increaseTrack();
+        break;
+      default:
+        break;
       }
 
       break;
@@ -97,8 +104,9 @@ void readButtons()
     default: // case 2: // counter clockwise rotation
       debugMessln("CCW");
 
-      if (sourceNo == 0)
+      switch (sourceNo)
       {
+      case 0:              // FM radio
         if (!presetScreen) // frequency down
         {
           decreaseFreq();
@@ -107,6 +115,12 @@ void readButtons()
         {
           presetDown();
         }
+        break;
+      case 3: // DFPlayer
+        decreaseTrack();
+        break;
+      default:
+        break;
       }
 
       break;

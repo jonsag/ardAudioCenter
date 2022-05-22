@@ -175,7 +175,10 @@ DFPLAYER_DEVICE_SLEEP
 DFPLAYER_DEVICE_FLASH
 */
 
-boolean DFPlayerPause = false;
+boolean DFPlayerPause = false; // DFPlayer is paused
+
+int trackNo; // track number selected
+int oldTrackNo;
 
 /*
 String sdBuf; // takes the characters sent over serial

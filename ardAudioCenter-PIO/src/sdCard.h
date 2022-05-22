@@ -66,7 +66,7 @@ void printDetail(uint8_t type, int value)
 
 void initDFPlayer()
 {
-  Serial.println("Starting DFPlayer Mini ...");
+  Serial.println("Starting DFPlayer Mini ...(May take 3~5 seconds)");
   Serial.println();
 
   if (!myDFPlayer.begin(mySoftwareSerial)) // use softwareSerial to communicate with mp3
@@ -84,10 +84,17 @@ void initDFPlayer()
   myDFPlayer.EQ(DFPlayerEQ);
   myDFPlayer.outputDevice(DFPlayerDevice);
 
-  if (myDFPlayer.available())  // print the detail message from DFPlayer to handle different errors and states
+  if (myDFPlayer.available()) // print the detail message from DFPlayer to handle different errors and states
   {
+#if DEBUG
     printDetail(myDFPlayer.readType(), myDFPlayer.read());
+#endif
   }
+}
+
+void startDFPlayer()
+{
+  initDFPlayer();
 }
 
 void pause_playDFPlayer()
@@ -100,9 +107,14 @@ void pause_playDFPlayer()
   {
     myDFPlayer.pause(); // pause the mp3
   }
+  printPlayPause();
+
   DFPlayerPause = !DFPlayerPause;
 }
 
+void playTrackNo() {
+  myDFPlayer.play(trackNo);  // play track
+}
 /*
 void options_menu()
 {
