@@ -1,5 +1,5 @@
 #define programName "ardAudioCenter"
-#define date "20220520"
+#define date "20220522"
 #define author "Jon Sagebrand"
 #define email "jonsagebrand@gmail.com"
 
@@ -13,7 +13,8 @@
 /*******************************
   Debugging
 *******************************/
-#define DEBUG 0 // set to 0 to turn off debugging messages
+#define DEBUG 0 // debugMess is off when 0
+#define INFO 1
 
 #if DEBUG
 #define debugMess(x) Serial.print(x)
@@ -21,6 +22,14 @@
 #else
 #define debugMess(x)
 #define debugMessln(x)
+#endif
+
+#if INFO || DEBUG
+#define infoMess(x) Serial.print(x)
+#define infoMessln(x) Serial.println(x)
+#else
+#define infoMess(x)
+#define infoMessln(x)
 #endif
 
 /*******************************
@@ -137,29 +146,50 @@ byte volR; // volume on right channel
 /*******************************
   SD card module, DFPlayer Mini
 *******************************/
-  #include <SoftwareSerial.h> // this library adds RX and TX to other pins than 0 and 1
-  #include <DFRobotDFPlayerMini.h>
+#include <SoftwareSerial.h> // this library adds RX and TX to other pins than 0 and 1
+#include <DFRobotDFPlayerMini.h>
 
-  SoftwareSerial mySoftwareSerial(10, 9); // RX, TX, on the DFPlayer 10 connects to TX and 9 to RX
+SoftwareSerial mySoftwareSerial(10, 9); // RX, TX, on the DFPlayer 10 connects to TX and 9 to RX
 
-  DFRobotDFPlayerMini myDFPlayer; // define player
+DFRobotDFPlayerMini myDFPlayer; // define player
 
-  String sdBuf; // takes the characters sent over serial
+#define DFPlayerSerialTimeOut 500
+#define DFPlayerVolume 10 // volume value (0~30)
 
-  boolean sdPause = false;
-  byte sdEqualizer = 0; // (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)
-  byte maxSDSongs = 0;
+#define DFPlayerEQ DFPLAYER_EQ_NORMAL // set different EQ
+/*
+DFPLAYER_EQ_NORMAL
+DFPLAYER_EQ_POP
+DFPLAYER_EQ_ROCK
+DFPLAYER_EQ_JAZZ
+DFPLAYER_EQ_CLASSIC
+DFPLAYER_EQ_BASS
+*/
 
-  byte mySoftwareSerialTimeOut = 500;
+#define DFPlayerDevice DFPLAYER_DEVICE_SD // set device we use SD as default
+/*
+DFPLAYER_DEVICE_U_DISK
+DFPLAYER_DEVICE_SD
+DFPLAYER_DEVICE_AUX
+DFPLAYER_DEVICE_SLEEP
+DFPLAYER_DEVICE_FLASH
+*/
 
-  const byte sdVolume = 10;
+boolean DFPlayerPause = false;
+
+/*
+String sdBuf; // takes the characters sent over serial
+boolean sdPause = false;
+byte sdEqualizer = 0; // (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)
+byte maxSDSongs = 0;
+*/
 
 /*******************************
   Sources
 *******************************/
 byte sourceNo = 0;
 
-const String sources[] = {"FM Radio", "Bluetooth", "Line In", "SD-Card"};
+const String sources[] = {"FM Radio", "Bluetooth", "Line In", "SD Card"};
 const String sourcesShort[] = {"FM", "Bt", "Li", "SD"};
 
 byte oldSourceNo = sourceNo;

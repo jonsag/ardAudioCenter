@@ -1,20 +1,121 @@
-// the recommended library for the DFPlayer Mini is at https://github.com/Arduinolibrary/DFRobot_Mini_Player
-// but I use the one at https://github.com/DFRobot/DFRobotDFPlayerMini
 
-// Code on this page originates from https://www.instructables.com/id/MP3-Player-With-Arduino/
+void printDetail(uint8_t type, int value)
+{
+  switch (type)
+  {
+  case TimeOut:
+    Serial.println("Time Out!");
+    break;
+  case WrongStack:
+    Serial.println("Stack Wrong!");
+    break;
+  case DFPlayerCardInserted:
+    Serial.println("Card Inserted!");
+    break;
+  case DFPlayerCardRemoved:
+    Serial.println("Card Removed!");
+    break;
+  case DFPlayerCardOnline:
+    Serial.println("Card Online!");
+    break;
+  case DFPlayerUSBInserted:
+    Serial.println("USB Inserted!");
+    break;
+  case DFPlayerUSBRemoved:
+    Serial.println("USB Removed!");
+    break;
+  case DFPlayerPlayFinished:
+    Serial.print("Number:");
+    Serial.print(value);
+    Serial.println(" Play Finished!");
+    break;
+  case DFPlayerError:
+    Serial.print("DFPlayerError:");
 
+    switch (value)
+    {
+    case Busy:
+      Serial.println("Card not found");
+      break;
+    case Sleeping:
+      Serial.println("Sleeping");
+      break;
+    case SerialWrongStack:
+      Serial.println("Get Wrong Stack");
+      break;
+    case CheckSumNotMatch:
+      Serial.println("Check Sum Not Match");
+      break;
+    case FileIndexOut:
+      Serial.println("File Index Out of Bound");
+      break;
+    case FileMismatch:
+      Serial.println("Cannot Find File");
+      break;
+    case Advertise:
+      Serial.println("In Advertise");
+      break;
+    default:
+      break;
+    }
+    break;
+  default:
+    break;
+  }
+}
+
+void initDFPlayer()
+{
+  Serial.println("Starting DFPlayer Mini ...");
+  Serial.println();
+
+  if (!myDFPlayer.begin(mySoftwareSerial)) // use softwareSerial to communicate with mp3
+  {
+    Serial.println("Unable to begin:");
+    Serial.println("1.Please recheck the connection!");
+    Serial.println("2.Please insert the SD card!");
+    while (true)
+      ;
+  }
+  Serial.println("DFPlayer Mini online!");
+
+  myDFPlayer.setTimeOut(DFPlayerSerialTimeOut);
+  myDFPlayer.volume(DFPlayerVolume);
+  myDFPlayer.EQ(DFPlayerEQ);
+  myDFPlayer.outputDevice(DFPlayerDevice);
+
+  if (myDFPlayer.available())  // print the detail message from DFPlayer to handle different errors and states
+  {
+    printDetail(myDFPlayer.readType(), myDFPlayer.read());
+  }
+}
+
+void pause_playDFPlayer()
+{
+  if (DFPlayerPause)
+  {
+    myDFPlayer.start(); // start the mp3 from the pause
+  }
+  else
+  {
+    myDFPlayer.pause(); // pause the mp3
+  }
+  DFPlayerPause = !DFPlayerPause;
+}
+
+/*
 void options_menu()
 {
-  debugMessln();
-  debugMessln("Commands: ");
-  debugMess(" [1-");
-  debugMess(maxSDSongs);
-  debugMessln("] Select the MP3 file");
-  debugMessln(" [s] stop playback");
-  debugMessln(" [p] pause/continue music");
-  debugMessln(" [e] select equalization");
-  debugMessln(" [+ or -] increase or decrease the volume");
-  debugMessln();
+  Serial.println();
+  Serial.println("Commands: ");
+  Serial.print(" [1-");
+  Serial.print(maxSDSongs);
+  Serial.println("] Select the MP3 file");
+  Serial.println(" [s] stop playback");
+  Serial.println(" [p] pause/continue music");
+  Serial.println(" [e] select equalization");
+  Serial.println(" [+ or -] increase or decrease the volume");
+  Serial.println();
 }
 
 void playSDCard()
@@ -25,22 +126,22 @@ void playSDCard()
 
     if ((sdBuf.toInt() >= 1) && (sdBuf.toInt() <= maxSDSongs)) // playback (song index)
     {
-      debugMess("Playing music: ");
-      debugMessln(sdBuf.toInt());
-      myDFPlayer.play(sdBuf.toInt()); // play the music
-      menu_opcoes();
+      Serial.print("Playing music: ");
+      Serial.println(sdBuf.toInt();
+      myDFPlayer.play(sdBuf.toInt(); // play the music
+      options_menu();
     }
 
     if (sdBuf == "p") // pause/continue music
     {
       if (sdPause)
       {
-        debugMessln("Continue music ...");
+        Serial.println("Continue music ...");
         myDFPlayer.start();
       }
       else
       {
-        debugMessln("Music paused ...");
+        Serial.println("Music paused ...");
         myDFPlayer.pause();
       }
       sdPause = !sdPause;
@@ -51,8 +152,9 @@ void playSDCard()
     if (sdBuf == "s") // stop
     {
       myDFPlayer.stop();
-      debugMessln("Music stopped!");
-      options_menu()();
+
+      Serial.println("Music stopped!");
+      options_menu();
     }
 
     if (sdBuf == "e") // select equalization
@@ -63,27 +165,28 @@ void playSDCard()
         sdEqualizer = 0;
       }
       myDFPlayer.EQ(sdEqualizer);
-      debugMess("Equalization: ");
-      debugMess(sdEqualizer);
-      debugMessln(" (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)");
+
+      Serial.print("Equalization: ");
+      Serial.print(sdEqualizer);
+      Serial.println(" (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)");
       options_menu();
     }
 
-    if (sdBuf == "+")
-      / increase volume
-      {
-        myDFPlayer.volumeUp();
-        debugMess("Current volume: ");
-        debugMessln(myDFPlayer.readVolume());
-        options_menu();
-      }
+    if (sdBuf == "+") // increase volume
+    {
+      myDFPlayer.volumeUp();
+      Serial.print("Current volume: ");
+      Serial.println(myDFPlayer.readVolume();
+      options_menu();
+    }
 
     if (sdBuf == "-") // decrease volume
     {
       myDFPlayer.volumeDown();
-      debugMess("Current volume: ");
-      debugMessln(myDFPlayer.readVolume());
+      Serial.print("Current volume: ");
+      Serial.println(myDFPlayer.readVolume();
       options_menu();
     }
   } // while
 } // loop
+*/

@@ -1,13 +1,14 @@
+
 #include "Arduino.h"
 
 #include "configuration.h" // sets all variables
 
 #include "radioTEA5767.h" // control the FM radio module
-//#include "sdCard.h" // control the DFPlayer Mini SD Card module
-#include "lcd.h"     // manages all info on LCD
-#include "buttons.h" // handle button presses
-#include "sources.h" // sets source
-#include "volume.h"  // sets volume
+#include "sdCard.h"       // control the DFPlayer Mini SD Card module
+#include "lcd.h"          // manages all info on LCD
+#include "buttons.h"      // handle button presses
+#include "sources.h"      // sets source
+#include "volume.h"       // sets volume
 
 void setup()
 {
@@ -31,7 +32,7 @@ void setup()
   /*******************************
     Start serial
   *******************************/
-#if DEBUG
+#if DEBUG || INFO
   lcd.setCursor(0, 1);
   lcd.print("Starting serial ...");
 
@@ -43,11 +44,11 @@ void setup()
   /*******************************
     Print start information
   *******************************/
-  debugMessln(programName);
-  debugMessln(date);
-  debugMessln("by ");
-  debugMessln(author);
-  debugMessln(email);
+  infoMessln(programName);
+  infoMessln(date);
+  infoMessln("by ");
+  infoMessln(author);
+  infoMessln(email);
 
   debugMess("Number of sources: ");
   debugMessln(sizeof(sources) / sizeof(sources[0]));
@@ -187,46 +188,15 @@ void setup()
   /*******************************
     Start DFPlayer Mini
   *******************************/
-  /*
-    lcd.setCursor(0, 1);
-    lcd.print("Starting sw serial ...");
+  lcd.setCursor(0, 1);
+  lcd.print("Starting sw serial ...");
 
-    debugMessln("Start software serial  ...");
-    debugMessln()
+  debugMessln("Starting software serial  ...");
+  debugMessln();
 
-    mySoftwareSerial.begin(9600);
+  mySoftwareSerial.begin(9600);
 
-    lcd.setCursor(0, 1);
-    lcd.print("Starting DFPlayer Mini ...");
-
-    delay(bootDelay); // delay to be able to see message on LCD
-
-    debugMessln("DFRobot DFPlayer Mini");
-    debugMessln("Starting DFPlayer Mini ...");
-    debugMessln();
-
-    if (!myDFPlayer.begin(mySoftwareSerial)) {
-      debugMessln("Could not initialize DFPlayer mini: ");
-      debugMessln("1. Check DFPlayer connections");
-      debugMessln("2. Insert SD card");
-      while (true);
-    }
-    debugMessln("DFPlayer Mini ready");
-    debugMessln()
-
-    myDFPlayer.setTimeOut(mySoftwareSerialTimeOut); // timeout serial 500ms
-    myDFPlayer.volume(sdVolume); // volume 10, between 0 and 30
-    myDFPlayer.EQ(0); // equalizer set to normal
-
-    maxSDSongs = myDFPlayer.readFileCounts(DFPLAYER_DEVICE_SD); // count number of tracks on sd card
-    debugMess("Number of tracks on SD card: ");
-    debugMessln(maxSDSongs);
-    debugMessln()
-
-    menu_opcoes(); // mostra o menu de comandos
-
-    delay(bootDelay); // delay to be able to see message on LCD
-  */
+  delay(bootDelay); // delay to be able to see message on LCD
 
   /*******************************
     Fill LCD
