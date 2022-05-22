@@ -2815,7 +2815,7 @@
     (uuid 00000000-0000-0000-0000-00005ecc0ed1)
     (property "Reference" "U9" (id 0) (at 200.66 30.9626 0))
     (property "Value" "CD4052B" (id 1) (at 200.66 33.274 0))
-    (property "Footprint" "My_Misc:DIP-16_W7.62mm_larger" (id 2) (at 204.47 72.39 0)
+    (property "Footprint" "My_Misc:DIP-16_W7.62mm_LongPads w socket" (id 2) (at 204.47 72.39 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/ds/symlink/cd4052b.pdf" (id 3) (at 200.152 48.26 0)
@@ -2844,7 +2844,7 @@
     (uuid 00000000-0000-0000-0000-00005ecc220d)
     (property "Reference" "U7" (id 0) (at 175.26 123.6726 0))
     (property "Value" "MCP41010" (id 1) (at 175.26 125.984 0))
-    (property "Footprint" "My_Misc:DIP-8_W7.62mm_large" (id 2) (at 175.26 138.43 0)
+    (property "Footprint" "My_Misc:DIP-8_W7.62mm_Socket_w_dip_packet_LongPads" (id 2) (at 175.26 138.43 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" (id 3) (at 175.26 138.43 0)
@@ -2865,7 +2865,7 @@
     (uuid 00000000-0000-0000-0000-00005ecc2a42)
     (property "Reference" "U10" (id 0) (at 229.87 123.6726 0))
     (property "Value" "MCP41010" (id 1) (at 229.87 125.984 0))
-    (property "Footprint" "My_Misc:DIP-8_W7.62mm_large" (id 2) (at 229.87 138.43 0)
+    (property "Footprint" "My_Misc:DIP-8_W7.62mm_Socket_w_dip_packet_LongPads" (id 2) (at 229.87 138.43 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" (id 3) (at 229.87 138.43 0)
@@ -4071,16 +4071,16 @@
       (reference "U6") (unit 1) (value "JDY-62_Bluetooth_Module") (footprint "My_Headers:6-pin JST JDY-62 Bluetooth")
     )
     (path "/00000000-0000-0000-0000-00005ecc220d"
-      (reference "U7") (unit 1) (value "MCP41010") (footprint "My_Misc:DIP-8_W7.62mm_large")
+      (reference "U7") (unit 1) (value "MCP41010") (footprint "My_Misc:DIP-8_W7.62mm_Socket_w_dip_packet_LongPads")
     )
     (path "/00000000-0000-0000-0000-00005ee9ceae"
       (reference "U8") (unit 1) (value "VolL") (footprint "My_Headers:3-pin JST Potentiometer")
     )
     (path "/00000000-0000-0000-0000-00005ecc0ed1"
-      (reference "U9") (unit 1) (value "CD4052B") (footprint "My_Misc:DIP-16_W7.62mm_larger")
+      (reference "U9") (unit 1) (value "CD4052B") (footprint "My_Misc:DIP-16_W7.62mm_LongPads w socket")
     )
     (path "/00000000-0000-0000-0000-00005ecc2a42"
-      (reference "U10") (unit 1) (value "MCP41010") (footprint "My_Misc:DIP-8_W7.62mm_large")
+      (reference "U10") (unit 1) (value "MCP41010") (footprint "My_Misc:DIP-8_W7.62mm_Socket_w_dip_packet_LongPads")
     )
     (path "/00000000-0000-0000-0000-00005ee9c6fe"
       (reference "U11") (unit 1) (value "VolR") (footprint "My_Headers:3-pin JST Potentiometer")
