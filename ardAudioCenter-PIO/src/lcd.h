@@ -42,6 +42,7 @@ void printFMPreset()
 /*******************************
   Prints track number on first line
 *******************************/
+#if DFPLAYER
 void printTrackNo()
 {
   if (trackNo < 10)
@@ -88,6 +89,7 @@ void printPlayPause()
     lcd.print("Playing");
   }
 }
+#endif
 
 /*******************************
   Prints selected source on top line

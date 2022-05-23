@@ -150,6 +150,7 @@ void decreaseFreq()
   printFM();
 }
 
+#if DFPLAYER
 void increaseTrack()
 {
   trackNo++;
@@ -167,6 +168,7 @@ void decreaseTrack()
     trackNo = 0;
   }
 }
+#endif
 
 void button2Action()
 {
@@ -176,9 +178,11 @@ void button2Action()
     presetScreen = true;
     printFMPreset();
     break;
+#if DFPLAYER
   case 3:
     pause_playDFPlayer();
     break;
+#endif
   default:
     break;
   }

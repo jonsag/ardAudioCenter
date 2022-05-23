@@ -5,10 +5,14 @@
 
 #include "lcd.h"          // manages all info on LCD
 #include "radioTEA5767.h" // control the FM radio module
-#include "sdCard.h"       // control the DFPlayer Mini SD Card module
-#include "buttons.h"      // handle button presses
-#include "sources.h"      // sets source
-#include "volume.h"       // sets volume
+
+#if DFPLAYER
+#include "sdCard.h" // control the DFPlayer Mini SD Card module
+#endif
+
+#include "buttons.h" // handle button presses
+#include "sources.h" // sets source
+#include "volume.h"  // sets volume
 
 void setup()
 {
@@ -188,6 +192,7 @@ void setup()
   /*******************************
     Start DFPlayer Mini
   *******************************/
+#if DFPLAYER
   lcd.setCursor(0, 1);
   lcd.print("Starting sw serial ...");
 
@@ -197,6 +202,7 @@ void setup()
   mySoftwareSerial.begin(9600);
 
   delay(bootDelay); // delay to be able to see message on LCD
+#endif
 
   /*******************************
     Fill LCD
@@ -249,7 +255,7 @@ void loop()
   /**********
    * volume has changed
    **********/
-  if (volume != oldVolume) // volume has been changed
+  if (volume != oldVolume && functionNo == 0) // volume has been changed
   {
     printVolume();
     setVolume();
@@ -266,15 +272,17 @@ void loop()
     oldBalance = balance;
   }
 
-  /**********
-   * DFPlayer track number has changed
-   **********/
+/**********
+ * DFPlayer track number has changed
+ **********/
+#if DFPLAYER
   if (sourceNo == 3 && trackNo != oldTrackNo) // balance has been changed
   {
     printTrackNo();
     playTrackNo();
     oldTrackNo = trackNo;
   }
+#endif
 
   /**********
    * source has changed
@@ -309,6 +317,7 @@ void loop()
       debugMessln();
     }
 
+#if DFPLAYER
     if (sourceNo == 3) // DFPlayer selected
     {
       startDFPlayer(); // initiate DFPlayer
@@ -320,6 +329,7 @@ void loop()
       debugMessln("DFPlayer paused");
       debugMessln();
     }
+#endif
 
     if (functionNo == 1)
     {
