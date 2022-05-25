@@ -4,6 +4,11 @@
 #define email "jonsagebrand@gmail.com"
 
 /*******************************
+  Enable DFPlayer
+*******************************/
+#define DFPLAYER 0 // set to 1 to enable DFPlayer
+
+/*******************************
   Serial
 *******************************/
 #define serialSpeed 9600
@@ -13,7 +18,7 @@
 /*******************************
   Debugging
 *******************************/
-#define DEBUG 0 // debugMess is off when 0
+#define DEBUG 1 // debugMess is off when 0
 #define INFO 1
 
 #if DEBUG
@@ -146,6 +151,7 @@ byte volR; // volume on right channel
 /*******************************
   SD card module, DFPlayer Mini
 *******************************/
+#if DFPLAYER
 #include <SoftwareSerial.h> // this library adds RX and TX to other pins than 0 and 1
 #include <DFRobotDFPlayerMini.h>
 
@@ -186,17 +192,23 @@ boolean sdPause = false;
 byte sdEqualizer = 0; // (0 = Normal, 1 = Pop, 2 = Rock, 3 = Jazz, 4 = Classic, 5 = Bass)
 byte maxSDSongs = 0;
 */
+#endif
 
 /*******************************
   Sources
 *******************************/
 byte sourceNo = 0;
 
+#if DFPLAYER
 const String sources[] = {"FM Radio", "Bluetooth", "Line In", "SD Card"};
 const String sourcesShort[] = {"FM", "Bt", "Li", "SD"};
+#else
+const String sources[] = {"FM Radio", "Bluetooth", "Line In"};
+const String sourcesShort[] = {"FM", "Bt", "Li"};
+#endif
 
 byte oldSourceNo = sourceNo;
-byte selectSourceNo;
+byte selectSourceNo = 0;
 
 /*******************************
   Functions

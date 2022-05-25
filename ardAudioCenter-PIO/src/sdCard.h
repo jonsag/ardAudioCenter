@@ -112,8 +112,9 @@ void pause_playDFPlayer()
   DFPlayerPause = !DFPlayerPause;
 }
 
-void playTrackNo() {
-  myDFPlayer.play(trackNo);  // play track
+void playTrackNo()
+{
+  myDFPlayer.play(trackNo); // play track
 }
 /*
 void options_menu()

@@ -15,54 +15,56 @@ void readButtons()
   {
     button1Millis = millis();
 
-    debugMess("Rotary encoder 1: ");
-
-    switch (rotate1) // left knob
-    {
-    case 1: // clockwise rotation
-      debugMessln("CW");
-
-      switch (functionNo)
-      {
-      case 0: // volume up
-        increaseVolume();
-        break;
-
-      case 1: // source up
-        sourceUp();
-        break;
-
-      default: // case 2: // balance right
-        balanceRight();
-        break;
-      }
-
-      break;
-
-    default: // case 2: // counter clockwise rotation
-      debugMessln("CCW");
-
-      switch (functionNo)
-      {
-      case 0: // volume down
-        decreaseVolume();
-        break;
-      case 1: // source down
-        sourceDown();
-        break;
-      default: // case 2: // balance left
-        balanceLeft();
-        break;
-      }
-
-      break;
-    }
+    debugMess("--- Rotary encoder 1: ");
 
     if (push1) // left button pressed
     {
       debugMessln("Button pressed");
 
       button1Action();
+    }
+    else
+    {
+      switch (rotate1) // left knob
+      {
+      case 1: // clockwise rotation
+        debugMessln("CW");
+
+        switch (functionNo)
+        {
+        case 0: // volume up
+          increaseVolume();
+          break;
+
+        case 1: // source up
+          sourceUp();
+          break;
+
+        default: // case 2: // balance right
+          balanceRight();
+          break;
+        }
+
+        break;
+
+      default: // case 2: // counter clockwise rotation
+        debugMessln("CCW");
+
+        switch (functionNo)
+        {
+        case 0: // volume down
+          decreaseVolume();
+          break;
+        case 1: // source down
+          sourceDown();
+          break;
+        default: // case 2: // balance left
+          balanceLeft();
+          break;
+        }
+
+        break;
+      }
     }
   }
 
@@ -73,66 +75,72 @@ void readButtons()
   {
     button2Millis = millis();
 
-    debugMess("Rotary encoder 2: ");
+    debugMess("--- Rotary encoder 2: ");
 
-    switch (rotate2) // right knob
+    if (push2) // right button pressed
     {
-    case 1: // clockwise rotation
-      debugMessln("CW");
 
-      switch (sourceNo)
-      {
-      case 0:              // FM radio
-        if (!presetScreen) // frequency up
-        {
-          increaseFreq();
-        }
-        else
-        {
-          presetUp();
-        }
-        break;
-      case 3: // DFPlayer
-        increaseTrack();
-        break;
-      default:
-        break;
-      }
+      debugMessln("Button pressed");
 
-      break;
-
-    default: // case 2: // counter clockwise rotation
-      debugMessln("CCW");
-
-      switch (sourceNo)
-      {
-      case 0:              // FM radio
-        if (!presetScreen) // frequency down
-        {
-          decreaseFreq();
-        }
-        else
-        {
-          presetDown();
-        }
-        break;
-      case 3: // DFPlayer
-        decreaseTrack();
-        break;
-      default:
-        break;
-      }
-
-      break;
+      button2Action();
     }
-  }
+    else
+    {
+      switch (rotate2) // right knob
+      {
+      case 1: // clockwise rotation
+        debugMessln("CW");
 
-  if (push2) // right button pressed
-  {
+        switch (sourceNo)
+        {
+        case 0:              // FM radio
+          if (!presetScreen) // frequency up
+          {
+            increaseFreq();
+          }
+          else
+          {
+            presetUp();
+          }
+          break;
+#if DFPLAYER
+        case 3: // DFPlayer
+          increaseTrack();
+          break;
+#endif
+        default:
+          break;
+        }
 
-    debugMessln("Button pressed");
+        break;
 
-    button2Action();
+      default: // case 2: // counter clockwise rotation
+        debugMessln("CCW");
+
+        switch (sourceNo)
+        {
+        case 0:              // FM radio
+          if (!presetScreen) // frequency down
+          {
+            decreaseFreq();
+          }
+          else
+          {
+            presetDown();
+          }
+          break;
+#if DFPLAYER
+        case 3: // DFPlayer
+          decreaseTrack();
+          break;
+#endif
+        default:
+          break;
+        }
+
+        break;
+      }
+    }
   }
 }
 
