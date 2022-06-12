@@ -1,5 +1,5 @@
 #define programName "ardAudioCenter"
-#define date "20220522"
+#define date "20220612"
 #define author "Jon Sagebrand"
 #define email "jonsagebrand@gmail.com"
 
@@ -18,7 +18,7 @@
 /*******************************
   Debugging
 *******************************/
-#define DEBUG 1 // debugMess is off when 0
+#define DEBUG 0 // debugMess is off when 0
 #define INFO 1
 
 #if DEBUG
@@ -221,10 +221,10 @@ byte oldFunctionNo = functionNo;
 /*******************************
   Sound settings
 *******************************/
-#define volumeStep 5
+#define volumeStep 2
 #define balanceStep 1
 
-byte volume = 25; // start volume
+byte volume = 20; // start volume
 
 byte oldVolume = volume;
 byte volumeVal;
