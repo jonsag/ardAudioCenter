@@ -6,7 +6,7 @@ Will have an LCD screen.
 
 Note
 ==========
-This is a work in progress, and is FAR from complete.  
+This is a work in progress, but should now be working.  
 
 Parts list
 ==========
