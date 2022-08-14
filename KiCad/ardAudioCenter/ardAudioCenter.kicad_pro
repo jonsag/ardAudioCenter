@@ -380,7 +380,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "specctra_dsn": "ardAudioCenter-ams1117-autorouted.dsn",
+      "specctra_dsn": "ardAudioCenter.dsn",
       "step": "",
       "vrml": ""
     },
