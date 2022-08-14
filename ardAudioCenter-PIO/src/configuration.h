@@ -147,6 +147,7 @@ byte volR; // volume on right channel
   Bluetooth module, JDY-62
 *******************************/
 #define btMute 8 // pin connected to mute input on JDY-62, muted when HIGH
+#define btOn 12 // pin connected to MOSFET, powering the module when HIGH
 
 /*******************************
   SD card module, DFPlayer Mini
