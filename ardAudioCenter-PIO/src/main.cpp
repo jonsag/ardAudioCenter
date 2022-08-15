@@ -103,7 +103,7 @@ void setup()
   digitalWrite(csPR, HIGH);
 
   pinMode(btMute, OUTPUT); // mute output on bluetooth module
-  pinMode(btOn, OUTPUT); // mute output on bluetooth module
+  pinMode(btOn, OUTPUT);   // mute output on bluetooth module
   digitalWrite(btMute, HIGH);
   digitalWrite(btOn, LOW);
 
@@ -310,12 +310,12 @@ void loop()
     if (sourceNo == 1) // bluetooth selected
     {
       digitalWrite(btMute, LOW); // unmute bluetooth
-      digitalWrite(btOn, HIGH); // power on the bluetooth module
+      digitalWrite(btOn, HIGH);  // power on the bluetooth module
     }
     else
     {
       digitalWrite(btMute, HIGH); // mute bluetooth
-      digitalWritwe(btOn, LOW); // power off the bluetooth module
+      digitalWrite(btOn, LOW);    // power off the bluetooth module
 
       debugMessln("Bluetooth muted and off");
       debugMessln();
