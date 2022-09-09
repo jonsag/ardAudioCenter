@@ -5,6 +5,12 @@
   )
 
   (paper "A4")
+  (title_block
+    (title "ardAudioCenter")
+    (date "2022-09-09")
+    (rev "0.4")
+  )
+
   (layers
     (0 "F.Cu" signal)
     (31 "B.Cu" signal)
@@ -2526,7 +2532,7 @@
   (gr_text "Audio Out" (at 135.255 125.73 90) (layer "F.SilkS") (tstamp b90f9506-43da-4a4e-afad-ea05af9076ba)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (gr_text "ardAudioCenter-0.3\nDesign: Jon Sagebrand\ngithub.com/jonsag" (at 118.11 101.6 90) (layer "F.SilkS") (tstamp be44bbbd-6cd1-4c2b-aebb-314a41630db3)
+  (gr_text "${TITLE}-${REVISION}\nDesign: Jon Sagebrand\ngithub.com/jonsag" (at 118.11 101.6 90) (layer "F.SilkS") (tstamp be44bbbd-6cd1-4c2b-aebb-314a41630db3)
     (effects (font (size 1 1) (thickness 0.15)) (justify left))
   )
   (gr_text "Rot Enc 2" (at 140.335 123.19 90) (layer "F.SilkS") (tstamp c23337d5-a321-499f-8b63-b18fe2825897)

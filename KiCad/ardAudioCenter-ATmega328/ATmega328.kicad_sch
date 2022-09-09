@@ -4,6 +4,12 @@
 
   (paper "A4")
 
+  (title_block
+    (title "ardAudioCenter-ATmega328")
+    (date "2022-09-09")
+    (rev "0.1")
+  )
+
   (lib_symbols
     (symbol "Device:C" (pin_numbers hide) (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
       (property "Reference" "C" (id 0) (at 0.635 2.54 0)
@@ -979,8 +985,8 @@
     (pin "2" (uuid 32b39a04-82ec-4a22-b8ea-3d8deb0ca7a9))
     (pin "20" (uuid cede16bd-47cd-4dd9-8d75-4bf2c6bcbaa3))
     (pin "21" (uuid b70c0c71-4597-4b4e-a4f4-2c9f77a35e86))
-    (pin "22" (uuid fa1136c6-71bd-4c9c-9c95-2f7d5a92dd98))
-    (pin "22" (uuid fa1136c6-71bd-4c9c-9c95-2f7d5a92dd98))
+    (pin "22" (uuid fa1136c6-71bd-4c9c-9c95-2f7d5a92dd9a))
+    (pin "22" (uuid fa1136c6-71bd-4c9c-9c95-2f7d5a92dd9a))
     (pin "23" (uuid 884a9e58-22bc-4762-879b-dbb5d5e03f88))
     (pin "24" (uuid aad2f7a3-6db3-4d84-ac3f-8053b84480d1))
     (pin "25" (uuid 73d7cb80-cfba-403a-8687-39468104db00))

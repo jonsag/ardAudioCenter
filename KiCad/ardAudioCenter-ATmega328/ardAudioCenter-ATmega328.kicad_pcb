@@ -5,6 +5,12 @@
   )
 
   (paper "A4")
+  (title_block
+    (title "ardAudioCenter-ATmega328")
+    (date "2022-09-09")
+    (rev "0.1")
+  )
+
   (layers
     (0 "F.Cu" signal)
     (31 "B.Cu" signal)
@@ -2660,7 +2666,7 @@
   (gr_arc (start 210.185 75.565) (mid 213.32809 76.86691) (end 214.63 80.01) (layer "Edge.Cuts") (width 0.1) (tstamp b3bb42e1-99c2-4b36-9e0d-221342e7d574))
   (gr_arc (start 118.11 146.05) (mid 114.96691 144.74809) (end 113.665 141.605) (layer "Edge.Cuts") (width 0.1) (tstamp c56e780e-4d91-4f8d-8fde-378ef3fcdf2f))
   (gr_arc (start 113.665 80.01) (mid 114.96691 76.86691) (end 118.11 75.565) (layer "Edge.Cuts") (width 0.1) (tstamp fed1c3a6-8892-49e4-be90-712a74a63190))
-  (gr_text "ardAudioCenter-Atmega328-0.1\nDesign: Jon Sagebrand\ngithub.com/jonsag" (at 210.185 127 90) (layer "F.SilkS") (tstamp 0235b7cc-be29-41ba-ae35-5b207099753c)
+  (gr_text "${TITLE}-${REVISION}\nDesign: Jon Sagebrand\ngithub.com/jonsag" (at 210.185 127 90) (layer "F.SilkS") (tstamp 0235b7cc-be29-41ba-ae35-5b207099753c)
     (effects (font (size 1 1) (thickness 0.15)) (justify left))
   )
   (gr_text "FM in" (at 139.065 113.665 90) (layer "F.SilkS") (tstamp 115af153-4238-4980-b15b-a0deb5cebc6c)
